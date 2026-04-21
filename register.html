@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up – Justlife</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { font-family: 'DM Sans', sans-serif; }
+  h1,h2,h3,h4 { font-family: 'Sora', sans-serif; }
+  .btn-green { background: #1DB954; color: white; border-radius: 8px; font-weight: 600; transition: all 0.2s; }
+  .btn-green:hover { background: #17a348; box-shadow: 0 4px 14px rgba(29,185,84,0.4); transform: translateY(-1px); }
+  .input-field { border: 2px solid #e5e7eb; border-radius: 10px; padding: 11px 16px; width: 100%; font-size: 0.875rem; transition: border 0.2s; outline: none; font-family: 'DM Sans', sans-serif; background: white; }
+  .input-field:focus { border-color: #1DB954; }
+  .input-field.error { border-color: #ef4444; }
+  .error-msg { color: #ef4444; font-size: 0.72rem; margin-top: 3px; display: none; }
+  .bg-pattern { background-color: #f0fdf4; background-image: radial-gradient(#bbf7d0 1px, transparent 1px); background-size: 24px 24px; }
+  @keyframes slideUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+  .animate-up { animation: slideUp 0.5s ease forwards; }
+  .tab-btn { flex: 1; padding: 10px; border-radius: 8px; font-weight: 600; font-size: 0.9rem; transition: all 0.2s; cursor: pointer; text-align: center; }
+  .tab-btn.active { background: #1DB954; color: white; }
+  .tab-btn:not(.active) { color: #6b7280; }
+  .tab-btn:not(.active):hover { background: #f3f4f6; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  .pw-toggle { position:absolute; right:14px; top:50%; transform:translateY(-50%); cursor:pointer; color:#9ca3af; }
+  .pw-toggle:hover { color:#1DB954; }
+  .upload-zone { border: 2px dashed #d1d5db; border-radius: 12px; padding: 24px; text-align: center; cursor: pointer; transition: all 0.2s; }
+  .upload-zone:hover { border-color: #1DB954; background: #f0fdf4; }
+  .strength-bar { height: 4px; border-radius: 2px; transition: all 0.3s; }
+</style>
+</head>
+<body class="bg-pattern min-h-screen flex flex-col">
+
+<nav class="bg-white/80 backdrop-blur border-b border-gray-100">
+  <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-2">
+      <div class="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center"><svg width="18" height="18" fill="white" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22" fill="none" stroke="white" stroke-width="1.5"/></svg></div>
+      <span class="font-bold text-xl" style="font-family:'Sora',sans-serif; color:#1DB954;">Justlife</span>
+    </a>
+    <span class="text-sm text-gray-500">Already have an account? <a href="login.html" class="text-green-600 font-semibold hover:underline">Log In</a></span>
+  </div>
+</nav>
+
+<main class="flex-1 flex items-center justify-center py-10 px-4">
+  <div class="w-full max-w-lg animate-up">
+    <div class="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
+      <!-- Header -->
+      <div class="bg-gradient-to-br from-green-500 to-teal-600 px-8 pt-7 pb-8 text-center">
+        <h1 class="text-2xl font-extrabold text-white mb-1">Create your account</h1>
+        <p class="text-green-100 text-sm">Join 500,000+ happy customers across the Gulf</p>
+      </div>
+
+      <div class="px-8 py-7">
+        <!-- TABS -->
+        <div class="flex gap-2 bg-gray-100 p-1 rounded-xl mb-7">
+          <button id="tab-customer-btn" class="tab-btn active" onclick="switchRegTab('customer')">
+            <span class="flex items-center justify-center gap-2">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Customer
+            </span>
+          </button>
+          <button id="tab-pro-btn" class="tab-btn" onclick="switchRegTab('pro')">
+            <span class="flex items-center justify-center gap-2">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>Professional
+            </span>
+          </button>
+        </div>
+
+        <!-- CUSTOMER FORM -->
+        <div id="tab-customer" class="tab-panel active">
+          <div class="space-y-4">
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-gray-700 mb-1">First Name *</label>
+                <input id="c-fname" type="text" placeholder="Sarah" class="input-field">
+                <div id="c-fnameErr" class="error-msg">Required.</div>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-gray-700 mb-1">Last Name *</label>
+                <input id="c-lname" type="text" placeholder="Ahmed" class="input-field">
+                <div id="c-lnameErr" class="error-msg">Required.</div>
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-1">Email Address *</label>
+              <div class="relative">
+                <svg class="absolute left-3 top-1/2 -translate-y-1/2" width="16" height="16" fill="none" stroke="#9ca3af" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <input id="c-email" type="email" placeholder="sarah@example.com" class="input-field pl-9">
+              </div>
+              <div id="c-emailErr" class="error-msg">Enter a valid email.</div>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-1">Phone Number *</label>
+              <div class="flex gap-2">
+                <select class="input-field w-28 flex-shrink-0">
+                  <option>🇦🇪 +971</option><option>🇸🇦 +966</option><option>🇶🇦 +974</option>
+                </select>
+                <div class="flex-1">
+                  <input id="c-phone" type="tel" placeholder="50 123 4567" class="input-field">
+                  <div id="c-phoneErr" class="error-msg">Enter a valid phone number.</div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-1">Password *</label>
+              <div class="relative">
+                <svg class="absolute left-3 top-1/2 -translate-y-1/2" width="16" height="16" fill="none" stroke="#9ca3af" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                <input id="c-pass" type="password" placeholder="Min. 8 characters" class="input-field pl-9 pr-10" oninput="checkStrength(this.value)">
+                <button type="button" class="pw-toggle" onclick="togglePw('c-pass', this)">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+              <div class="flex gap-1 mt-2">
+                <div id="sb1" class="strength-bar flex-1 bg-gray-200"></div>
+                <div id="sb2" class="strength-bar flex-1 bg-gray-200"></div>
+                <div id="sb3" class="strength-bar flex-1 bg-gray-200"></div>
+                <div id="sb4" class="strength-bar flex-1 bg-gray-200"></div>
+              </div>
+              <div id="c-passErr" class="error-msg">Password must be at least 8 characters.</div>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-1">Confirm Password *</label>
+              <div class="relative">
+                <svg class="absolute left-3 top-1/2 -translate-y-1/2" width="16" height="16" fill="none" stroke="#9ca3af" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                <input id="c-cpass" type="password" placeholder="Re-enter password" class="input-field pl-9 pr-10">
+                <button type="button" class="pw-toggle" onclick="togglePw('c-cpass', this)">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+              <div id="c-cpassErr" class="error-msg">Passwords do not match.</div>
+            </div>
+            <div class="flex items-start gap-2.5">
+              <input type="checkbox" id="c-terms" class="w-4 h-4 accent-green-500 mt-0.5 flex-shrink-0">
+              <label for="c-terms" class="text-xs text-gray-600 cursor-pointer leading-relaxed">
+                I agree to Justlife's <a href="#" class="text-green-600 font-medium hover:underline">Terms of Service</a> and <a href="#" class="text-green-600 font-medium hover:underline">Privacy Policy</a>
+              </label>
+            </div>
+            <div id="c-termsErr" class="error-msg">You must accept the terms to continue.</div>
+            <button onclick="registerCustomer()" class="btn-green w-full py-3.5 text-base">Create Account</button>
+          </div>
+        </div>
+
+        <!-- PROFESSIONAL FORM -->
+        <div id="tab-pro" class="tab-panel">
+          <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 mb-5 flex items-start gap-2">
+            <svg width="16" height="16" fill="none" stroke="#d97706" stroke-width="2" viewBox="0 0 24 24" class="flex-shrink-0 mt-0.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16" stroke-width="3"/></svg>
+            <p class="text-xs text-amber-700">Professional accounts are reviewed within 24–48 hours. Ensure your ID and documents are valid.</p>
+          </div>
+          <div class="space-y-4">
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-gray-700 mb-1">First Name *</label>
+                <input id="p-fname" type="text" placeholder="Amira" class="input-field">
+                <div id="p-fnameErr" class="error-msg">Required.</div>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-gray-700 mb-1">Last Name *</label>
+                <input id="p-lname" type="text" placeholder="Hassan" class="input-field">
+                <div id="p-lnameErr" class="error-msg">Required.</div>
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-1">Email Address *</label>
+              <div class="relative">
+                <svg class="absolute left-3 top-1/2 -translate-y-1/2" width="16" height="16" fill="none" stroke="#9ca3af" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <input id="p-email" type="email" placeholder="pro@example.com" class="input-field pl-9">
+              </div>
+              <div id="p-emailErr" class="error-msg">Enter a valid email.</div>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-1">Phone Number *</label>
+              <div class="flex gap-2">
+                <select class="input-field w-28 flex-shrink-0">
+                  <option>🇦🇪 +971</option><option>🇸🇦 +966</option><option>🇶🇦 +974</option>
+                </select>
+                <div class="flex-1">
+                  <input id="p-phone" type="tel" placeholder="55 987 6543" class="input-field">
+                  <div id="p-phoneErr" class="error-msg">Enter a valid phone number.</div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-1">Service Category *</label>
+              <select id="p-service" class="input-field">
+                <option value="">Select your service...</option>
+                <option>Home Cleaning</option><option>Women's Salon</option><option>Women's Spa</option>
+                <option>A/C Cleaning</option><option>Furniture Cleaning</option><option>Men's Grooming</option>
+                <option>PCR at Home</option><option>Lab at Home</option><option>Pest Control</option>
+                <option>Disinfection</option><option>Handyman</option><option>Car Wash</option>
+              </select>
+              <div id="p-serviceErr" class="error-msg">Please select a service category.</div>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-1">City *</label>
+              <select id="p-city" class="input-field">
+                <option value="">Select city...</option>
+                <option>Dubai</option><option>Abu Dhabi</option><option>Sharjah</option>
+                <option>Riyadh</option><option>Jeddah</option><option>Doha</option>
+              </select>
+              <div id="p-cityErr" class="error-msg">Please select a city.</div>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-1">Upload Emirates ID / Passport *</label>
+              <div class="upload-zone" onclick="document.getElementById('p-idFile').click()">
+                <input type="file" id="p-idFile" accept="image/*,.pdf" class="hidden" onchange="showFileName(this)">
+                <svg width="32" height="32" fill="none" stroke="#9ca3af" stroke-width="1.5" viewBox="0 0 24 24" class="mx-auto mb-2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                <p id="fileLabel" class="text-sm text-gray-500">Click to upload or drag & drop</p>
+                <p class="text-xs text-gray-400 mt-1">PNG, JPG, PDF up to 5MB</p>
+              </div>
+              <div id="p-idErr" class="error-msg">Please upload your ID document.</div>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-1">Password *</label>
+              <div class="relative">
+                <svg class="absolute left-3 top-1/2 -translate-y-1/2" width="16" height="16" fill="none" stroke="#9ca3af" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                <input id="p-pass" type="password" placeholder="Min. 8 characters" class="input-field pl-9 pr-10">
+                <button type="button" class="pw-toggle" onclick="togglePw('p-pass', this)">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+              <div id="p-passErr" class="error-msg">Password must be at least 8 characters.</div>
+            </div>
+            <div class="flex items-start gap-2.5">
+              <input type="checkbox" id="p-terms" class="w-4 h-4 accent-green-500 mt-0.5 flex-shrink-0">
+              <label for="p-terms" class="text-xs text-gray-600 cursor-pointer leading-relaxed">
+                I agree to Justlife's <a href="#" class="text-green-600 font-medium hover:underline">Professional Terms</a> and <a href="#" class="text-green-600 font-medium hover:underline">Privacy Policy</a>
+              </label>
+            </div>
+            <div id="p-termsErr" class="error-msg">You must accept the terms to continue.</div>
+            <button onclick="registerPro()" class="btn-green w-full py-3.5 text-base">Submit Application</button>
+          </div>
+        </div>
+
+        <!-- Divider + Google -->
+        <div class="flex items-center gap-3 my-5">
+          <div class="flex-1 h-px bg-gray-200"></div>
+          <span class="text-sm text-gray-400 font-medium">OR</span>
+          <div class="flex-1 h-px bg-gray-200"></div>
+        </div>
+        <button class="w-full border-2 border-gray-200 rounded-xl py-3 flex items-center justify-center gap-3 hover:border-gray-300 hover:bg-gray-50 transition font-semibold text-gray-700 text-sm">
+          <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          Continue with Google
+        </button>
+
+        <p class="text-center text-sm text-gray-500 mt-5">
+          Already have an account? <a href="login.html" class="text-green-600 font-semibold hover:underline">Sign In</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="text-center py-6 text-xs text-gray-400 border-t border-gray-200 bg-white/60">
+  © 2024 Justlife Technologies · <a href="#" class="hover:text-green-600">Terms</a> · <a href="#" class="hover:text-green-600">Privacy</a>
+</footer>
+
+<script>
+function switchRegTab(tab) {
+  ['customer','pro'].forEach(t => {
+    document.getElementById('tab-'+t).classList.toggle('active', t===tab);
+    document.getElementById('tab-'+t+'-btn').classList.toggle('active', t===tab);
+  });
+}
+
+function togglePw(id, btn) {
+  const input = document.getElementById(id);
+  const isText = input.type === 'text';
+  input.type = isText ? 'password' : 'text';
+  btn.innerHTML = isText
+    ? '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>'
+    : '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+}
+
+function checkStrength(val) {
+  const bars = ['sb1','sb2','sb3','sb4'];
+  let score = 0;
+  if (val.length >= 8) score++;
+  if (/[A-Z]/.test(val)) score++;
+  if (/[0-9]/.test(val)) score++;
+  if (/[^A-Za-z0-9]/.test(val)) score++;
+  const colors = ['bg-red-400','bg-orange-400','bg-yellow-400','bg-green-500'];
+  bars.forEach((id, i) => {
+    const el = document.getElementById(id);
+    el.className = 'strength-bar flex-1 ' + (i < score ? colors[Math.min(score-1,3)] : 'bg-gray-200');
+  });
+}
+
+function showFileName(input) {
+  document.getElementById('fileLabel').textContent = input.files[0]?.name || 'Click to upload or drag & drop';
+}
+
+function setErr(id, show, msg='') {
+  const el = document.getElementById(id+'Err');
+  const inp = document.getElementById(id);
+  if (el) { el.style.display = show ? 'block' : 'none'; if(msg) el.textContent = msg; }
+  if (inp) inp.classList.toggle('error', show);
+}
+
+function registerCustomer() {
+  const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  let ok = true;
+  const checks = [
+    ['c-fname', v => v.length > 0, 'First name is required.'],
+    ['c-lname', v => v.length > 0, 'Last name is required.'],
+    ['c-email', v => emailRe.test(v), 'Enter a valid email.'],
+    ['c-phone', v => v.replace(/\s/g,'').length >= 7, 'Enter a valid phone number.'],
+    ['c-pass',  v => v.length >= 8, 'Password must be at least 8 characters.'],
+  ];
+  checks.forEach(([id, fn, msg]) => {
+    const v = document.getElementById(id).value.trim();
+    const fail = !fn(v);
+    setErr(id, fail, msg);
+    if (fail) ok = false;
+  });
+  const pass = document.getElementById('c-pass').value;
+  const cpass = document.getElementById('c-cpass').value;
+  if (pass !== cpass) { setErr('c-cpass', true, 'Passwords do not match.'); ok = false; }
+  else setErr('c-cpass', false);
+  const terms = document.getElementById('c-terms').checked;
+  document.getElementById('c-termsErr').style.display = terms ? 'none' : 'block';
+  if (!terms) ok = false;
+  if (ok) window.location.href = 'dashboard.html';
+}
+
+function registerPro() {
+  const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  let ok = true;
+  const checks = [
+    ['p-fname', v => v.length > 0, 'First name is required.'],
+    ['p-lname', v => v.length > 0, 'Last name is required.'],
+    ['p-email', v => emailRe.test(v), 'Enter a valid email.'],
+    ['p-phone', v => v.replace(/\s/g,'').length >= 7, 'Enter a valid phone number.'],
+    ['p-service', v => v.length > 0, 'Please select a service.'],
+    ['p-city',  v => v.length > 0, 'Please select a city.'],
+    ['p-pass',  v => v.length >= 8, 'Password must be at least 8 characters.'],
+  ];
+  checks.forEach(([id, fn, msg]) => {
+    const v = document.getElementById(id).value.trim();
+    const fail = !fn(v);
+    setErr(id, fail, msg);
+    if (fail) ok = false;
+  });
+  const file = document.getElementById('p-idFile').files.length;
+  document.getElementById('p-idErr').style.display = file ? 'none' : 'block';
+  if (!file) ok = false;
+  const terms = document.getElementById('p-terms').checked;
+  document.getElementById('p-termsErr').style.display = terms ? 'none' : 'block';
+  if (!terms) ok = false;
+  if (ok) {
+    alert('Application submitted! We\'ll review your profile within 24–48 hours.');
+    window.location.href = 'login.html';
+  }
+}
+</script>
+</body>
+</html>

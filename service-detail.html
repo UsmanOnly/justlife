@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home Cleaning – Justlife</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<style>
+  * { font-family: 'DM Sans', sans-serif; }
+  h1,h2,h3,h4 { font-family: 'Sora', sans-serif; }
+  .btn-green { background: #1DB954; color: white; border-radius: 8px; font-weight: 600; transition: all 0.2s; }
+  .btn-green:hover { background: #17a348; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(29,185,84,0.35); }
+  .card { border-radius: 12px; }
+  .slide-drawer { transform: translateX(100%); transition: transform 0.3s ease; }
+  .slide-drawer.open { transform: translateX(0); }
+  .overlay { opacity:0; pointer-events:none; transition:opacity 0.3s; }
+  .overlay.open { opacity:1; pointer-events:auto; }
+  .faq-content { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+  .faq-content.open { max-height: 300px; }
+  .time-slot { cursor:pointer; border:2px solid #e5e7eb; border-radius:8px; padding:8px 12px; text-align:center; font-size:0.875rem; transition:all 0.2s; }
+  .time-slot:hover { border-color:#1DB954; }
+  .time-slot.selected { background:#1DB954; color:white; border-color:#1DB954; }
+  .time-slot.disabled { opacity:0.4; cursor:not-allowed; background:#f3f4f6; }
+  .qty-btn { width:32px; height:32px; border-radius:8px; border:2px solid #e5e7eb; display:flex; align-items:center; justify-content:center; cursor:pointer; font-weight:700; transition:all 0.2s; }
+  .qty-btn:hover { border-color:#1DB954; color:#1DB954; }
+</style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+<div id="overlay" class="overlay fixed inset-0 bg-black/50 z-40" onclick="closeMenu()"></div>
+<div id="drawer" class="slide-drawer fixed top-0 right-0 h-full w-72 bg-white z-50 shadow-2xl p-6 flex flex-col gap-4">
+  <div class="flex justify-between items-center mb-4">
+    <span class="font-bold text-xl text-green-600">Justlife</span>
+    <button onclick="closeMenu()"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg></button>
+  </div>
+  <a href="services.html" class="py-3 border-b border-gray-100 font-medium text-gray-700 hover:text-green-600">Services</a>
+  <a href="login.html" class="py-3 border-b border-gray-100 font-medium text-gray-700 hover:text-green-600">Login</a>
+  <a href="register.html" class="btn-green py-3 px-4 text-center rounded-lg mt-2">Sign Up</a>
+</div>
+
+<nav class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-gray-100 shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-2">
+      <div class="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center"><svg width="18" height="18" fill="white" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div>
+      <span class="font-bold text-xl" style="font-family:'Sora',sans-serif; color:#1DB954;">Justlife</span>
+    </a>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="services.html" class="text-gray-700 font-medium hover:text-green-600">Services</a>
+      <a href="index.html#how-it-works" class="text-gray-700 font-medium hover:text-green-600">How it Works</a>
+    </div>
+    <div class="hidden md:flex items-center gap-3">
+      <a href="login.html" class="text-gray-700 font-medium hover:text-green-600 px-3 py-1.5">Login</a>
+      <a href="register.html" class="btn-green px-5 py-2 text-sm">Sign Up</a>
+    </div>
+    <button class="md:hidden" onclick="openMenu()"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
+  </div>
+</nav>
+
+<!-- HERO BANNER -->
+<div class="relative h-56 md:h-72 bg-gradient-to-br from-green-400 via-emerald-500 to-teal-600 overflow-hidden">
+  <div class="absolute inset-0 flex items-center justify-center opacity-10">
+    <svg width="220" height="220" fill="white" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+  </div>
+  <div class="relative max-w-7xl mx-auto px-4 h-full flex flex-col justify-end pb-8">
+    <nav class="flex items-center gap-2 text-sm text-green-100 mb-3">
+      <a href="index.html" class="hover:text-white">Home</a>
+      <span>/</span>
+      <a href="services.html" class="hover:text-white">Services</a>
+      <span>/</span>
+      <span class="text-white font-medium">Home Cleaning</span>
+    </nav>
+    <h1 class="text-4xl md:text-5xl font-extrabold text-white">Home Cleaning</h1>
+    <div class="flex items-center gap-4 mt-3">
+      <div class="flex items-center gap-1 text-yellow-300">★★★★★ <span class="text-white text-sm">(4.8) · 2,340 reviews</span></div>
+      <span class="bg-white/20 text-white text-sm px-3 py-1 rounded-full">Same-day available</span>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="max-w-7xl mx-auto px-4 py-10">
+  <div class="flex flex-col lg:flex-row gap-10">
+
+    <!-- LEFT COLUMN -->
+    <div class="flex-1 min-w-0">
+
+      <!-- Description -->
+      <section class="bg-white rounded-2xl border border-gray-100 p-7 mb-6">
+        <h2 class="text-2xl font-bold mb-4">About This Service</h2>
+        <p class="text-gray-600 leading-relaxed mb-4">Our professional home cleaning service delivers a thorough, deep clean of your entire home by trained and verified professionals. We use eco-friendly, hospital-grade cleaning products that are safe for your family and pets.</p>
+        <p class="text-gray-600 leading-relaxed">Whether you need a one-time deep clean or regular weekly service, our cleaners show up on time with all equipment and supplies included.</p>
+      </section>
+
+      <!-- What's Included -->
+      <section class="bg-white rounded-2xl border border-gray-100 p-7 mb-6">
+        <h2 class="text-2xl font-bold mb-5">What's Included</h2>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="p-4 bg-green-50 rounded-xl border border-green-100">
+            <h4 class="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+              <svg width="18" height="18" fill="#1DB954" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Bedroom
+            </h4>
+            <ul class="text-sm text-gray-600 space-y-1">
+              <li>✓ Dusting all surfaces</li><li>✓ Vacuuming / mopping floors</li>
+              <li>✓ Making beds</li><li>✓ Wardrobe exterior wipe</li>
+            </ul>
+          </div>
+          <div class="p-4 bg-blue-50 rounded-xl border border-blue-100">
+            <h4 class="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+              <svg width="18" height="18" fill="#3b82f6" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Kitchen
+            </h4>
+            <ul class="text-sm text-gray-600 space-y-1">
+              <li>✓ Countertop cleaning</li><li>✓ Sink scrubbing</li>
+              <li>✓ Appliance exterior wipe</li><li>✓ Floor mopping</li>
+            </ul>
+          </div>
+          <div class="p-4 bg-purple-50 rounded-xl border border-purple-100">
+            <h4 class="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+              <svg width="18" height="18" fill="#9333ea" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>Bathroom
+            </h4>
+            <ul class="text-sm text-gray-600 space-y-1">
+              <li>✓ Toilet deep scrub</li><li>✓ Shower/tub cleaning</li>
+              <li>✓ Mirror & tile polishing</li><li>✓ Floor disinfection</li>
+            </ul>
+          </div>
+          <div class="p-4 bg-amber-50 rounded-xl border border-amber-100">
+            <h4 class="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+              <svg width="18" height="18" fill="#f59e0b" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>Living Room
+            </h4>
+            <ul class="text-sm text-gray-600 space-y-1">
+              <li>✓ Sofa & furniture wipe</li><li>✓ TV & electronics dusting</li>
+              <li>✓ Vacuuming carpets</li><li>✓ Window interior wipe</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- WHY BOOK WITH US -->
+      <section class="bg-white rounded-2xl border border-gray-100 p-7 mb-6">
+        <h2 class="text-2xl font-bold mb-5">Why Book With Us?</h2>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="flex items-start gap-3"><div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0"><svg width="20" height="20" fill="none" stroke="#1DB954" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div><div class="font-semibold text-sm">Verified Professionals</div><div class="text-xs text-gray-500">Background checked & trained</div></div></div>
+          <div class="flex items-start gap-3"><div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0"><svg width="20" height="20" fill="none" stroke="#3b82f6" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div><div class="font-semibold text-sm">Fully Insured</div><div class="text-xs text-gray-500">100% protected bookings</div></div></div>
+          <div class="flex items-start gap-3"><div class="w-10 h-10 bg-yellow-100 rounded-xl flex items-center justify-center flex-shrink-0"><svg width="20" height="20" fill="none" stroke="#eab308" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div><div class="font-semibold text-sm">On-Time Guarantee</div><div class="text-xs text-gray-500">Or your next booking is free</div></div></div>
+          <div class="flex items-start gap-3"><div class="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0"><svg width="20" height="20" fill="none" stroke="#9333ea" stroke-width="2" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></div><div><div class="font-semibold text-sm">Eco-Friendly Products</div><div class="text-xs text-gray-500">Safe for kids & pets</div></div></div>
+        </div>
+      </section>
+
+      <!-- FAQs -->
+      <section class="bg-white rounded-2xl border border-gray-100 p-7 mb-6">
+        <h2 class="text-2xl font-bold mb-5">Frequently Asked Questions</h2>
+        <div class="space-y-3">
+          <div class="border border-gray-100 rounded-xl overflow-hidden">
+            <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-4 text-left font-semibold text-gray-800 hover:bg-gray-50">
+              <span>Do I need to provide cleaning supplies?</span>
+              <svg class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="faq-content px-4 text-sm text-gray-600"><div class="pb-4">No, our cleaners bring all their own professional-grade equipment and cleaning products. You don't need to provide anything.</div></div>
+          </div>
+          <div class="border border-gray-100 rounded-xl overflow-hidden">
+            <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-4 text-left font-semibold text-gray-800 hover:bg-gray-50">
+              <span>How many hours should I book?</span>
+              <svg class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="faq-content px-4 text-sm text-gray-600"><div class="pb-4">We recommend 2 hours for a 1BR, 3 hours for a 2BR, and 4 hours for a 3BR apartment. For villas or deep cleans, book additional hours.</div></div>
+          </div>
+          <div class="border border-gray-100 rounded-xl overflow-hidden">
+            <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-4 text-left font-semibold text-gray-800 hover:bg-gray-50">
+              <span>Can I request the same professional each time?</span>
+              <svg class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="faq-content px-4 text-sm text-gray-600"><div class="pb-4">Yes! If you love your cleaner, you can add them to your Favourite Pros list in your dashboard and request them for future bookings (subject to availability).</div></div>
+          </div>
+          <div class="border border-gray-100 rounded-xl overflow-hidden">
+            <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-4 text-left font-semibold text-gray-800 hover:bg-gray-50">
+              <span>What if I'm not satisfied with the cleaning?</span>
+              <svg class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="faq-content px-4 text-sm text-gray-600"><div class="pb-4">Your satisfaction is guaranteed. If you're not happy, contact us within 24 hours and we'll send another professional to re-clean at no extra charge.</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROFESSIONALS -->
+      <section class="bg-white rounded-2xl border border-gray-100 p-7">
+        <h2 class="text-2xl font-bold mb-5">Top Professionals for This Service</h2>
+        <div class="grid sm:grid-cols-3 gap-5">
+          <div class="text-center p-5 border border-gray-100 rounded-xl hover:border-green-200 hover:shadow-md transition">
+            <div class="w-20 h-20 bg-gradient-to-br from-green-300 to-teal-400 rounded-full mx-auto mb-3 flex items-center justify-center text-white text-2xl font-bold">A</div>
+            <div class="font-bold text-gray-900">Amira Hassan</div>
+            <div class="text-sm text-gray-500 mb-2">Home Cleaner</div>
+            <div class="flex items-center justify-center gap-1 text-yellow-400 text-sm">★★★★★ <span class="text-gray-500">(4.9)</span></div>
+            <div class="text-xs text-gray-400 mb-3">312 reviews · 5 yrs exp</div>
+            <span class="inline-flex items-center gap-1 text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">
+              <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Verified
+            </span>
+          </div>
+          <div class="text-center p-5 border border-gray-100 rounded-xl hover:border-green-200 hover:shadow-md transition">
+            <div class="w-20 h-20 bg-gradient-to-br from-blue-300 to-purple-400 rounded-full mx-auto mb-3 flex items-center justify-center text-white text-2xl font-bold">M</div>
+            <div class="font-bold text-gray-900">Maria Santos</div>
+            <div class="text-sm text-gray-500 mb-2">Home Cleaner</div>
+            <div class="flex items-center justify-center gap-1 text-yellow-400 text-sm">★★★★★ <span class="text-gray-500">(4.8)</span></div>
+            <div class="text-xs text-gray-400 mb-3">198 reviews · 3 yrs exp</div>
+            <span class="inline-flex items-center gap-1 text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">
+              <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Verified
+            </span>
+          </div>
+          <div class="text-center p-5 border border-gray-100 rounded-xl hover:border-green-200 hover:shadow-md transition">
+            <div class="w-20 h-20 bg-gradient-to-br from-pink-300 to-rose-400 rounded-full mx-auto mb-3 flex items-center justify-center text-white text-2xl font-bold">R</div>
+            <div class="font-bold text-gray-900">Rania El-Kadi</div>
+            <div class="text-sm text-gray-500 mb-2">Home Cleaner</div>
+            <div class="flex items-center justify-center gap-1 text-yellow-400 text-sm">★★★★☆ <span class="text-gray-500">(4.7)</span></div>
+            <div class="text-xs text-gray-400 mb-3">87 reviews · 2 yrs exp</div>
+            <span class="inline-flex items-center gap-1 text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">
+              <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Verified
+            </span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- RIGHT COLUMN - BOOKING WIDGET -->
+    <div class="lg:w-80 flex-shrink-0">
+      <div class="sticky top-24 bg-white rounded-2xl border border-gray-100 shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-green-500 to-teal-500 p-5 text-white">
+          <div class="text-sm opacity-80 mb-1">Starting from</div>
+          <div class="text-4xl font-extrabold">AED 89</div>
+          <div class="text-sm opacity-80">/hour · All supplies included</div>
+        </div>
+        <div class="p-5 space-y-5">
+          <!-- Hours selector -->
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Number of Hours</label>
+            <div class="flex items-center gap-3">
+              <button class="qty-btn" onclick="changeHours(-1)">−</button>
+              <span id="hoursDisplay" class="text-xl font-bold text-gray-900 w-8 text-center">3</span>
+              <button class="qty-btn" onclick="changeHours(1)">+</button>
+              <span class="text-sm text-gray-500">hours</span>
+            </div>
+          </div>
+          <!-- Date picker -->
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Select Date</label>
+            <input id="datePicker" type="text" placeholder="Pick a date" readonly class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 cursor-pointer">
+          </div>
+          <!-- Time slots -->
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Select Time</label>
+            <div class="grid grid-cols-3 gap-2">
+              <div class="time-slot disabled">8:00 AM</div>
+              <div class="time-slot" onclick="selectSlot(this)">9:00 AM</div>
+              <div class="time-slot selected" onclick="selectSlot(this)">10:00 AM</div>
+              <div class="time-slot" onclick="selectSlot(this)">11:00 AM</div>
+              <div class="time-slot disabled">12:00 PM</div>
+              <div class="time-slot" onclick="selectSlot(this)">1:00 PM</div>
+              <div class="time-slot" onclick="selectSlot(this)">2:00 PM</div>
+              <div class="time-slot" onclick="selectSlot(this)">3:00 PM</div>
+              <div class="time-slot disabled">4:00 PM</div>
+            </div>
+          </div>
+          <!-- Price Summary -->
+          <div class="bg-gray-50 rounded-xl p-4 space-y-2 text-sm">
+            <div class="flex justify-between"><span class="text-gray-600">AED 89 × <span id="hoursSummary">3</span> hrs</span><span id="subtotal" class="font-medium">AED 267</span></div>
+            <div class="flex justify-between"><span class="text-gray-600">Service fee</span><span class="font-medium">AED 10</span></div>
+            <div class="border-t pt-2 flex justify-between font-bold text-gray-900"><span>Total</span><span id="total" class="text-green-600 text-lg">AED 277</span></div>
+          </div>
+          <a href="booking.html" class="btn-green w-full py-3.5 text-center block text-base">Book Now</a>
+          <p class="text-xs text-gray-400 text-center">Free cancellation up to 2 hours before</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="bg-gray-900 text-gray-400 py-12 px-4 mt-10">
+  <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-sm">
+    <div class="flex items-center gap-2"><div class="w-7 h-7 bg-green-500 rounded-lg flex items-center justify-center"><svg width="14" height="14" fill="white" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div><span class="font-bold text-white" style="font-family:'Sora',sans-serif;">Justlife</span></div>
+    <p>© 2024 Justlife Technologies. All rights reserved.</p>
+    <div class="flex gap-5"><a href="#" class="hover:text-green-400">Terms</a><a href="#" class="hover:text-green-400">Privacy</a></div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+function openMenu() { document.getElementById('drawer').classList.add('open'); document.getElementById('overlay').classList.add('open'); }
+function closeMenu() { document.getElementById('drawer').classList.remove('open'); document.getElementById('overlay').classList.remove('open'); }
+function toggleRTL() { const h = document.documentElement; h.setAttribute('dir', h.getAttribute('dir') === 'rtl' ? 'ltr' : 'rtl'); }
+
+flatpickr('#datePicker', { minDate: 'today', dateFormat: 'd M Y', disableMobile: false });
+
+let hours = 3;
+const rate = 89;
+function changeHours(d) {
+  hours = Math.max(1, Math.min(12, hours + d));
+  document.getElementById('hoursDisplay').textContent = hours;
+  document.getElementById('hoursSummary').textContent = hours;
+  document.getElementById('subtotal').textContent = 'AED ' + (rate * hours);
+  document.getElementById('total').textContent = 'AED ' + (rate * hours + 10);
+}
+function selectSlot(el) {
+  if (el.classList.contains('disabled')) return;
+  document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function toggleFaq(btn) {
+  const content = btn.nextElementSibling;
+  const icon = btn.querySelector('svg');
+  const isOpen = content.classList.contains('open');
+  document.querySelectorAll('.faq-content').forEach(c => c.classList.remove('open'));
+  document.querySelectorAll('.faq-content + button svg, button + .faq-content').forEach(c => {});
+  if (!isOpen) { content.classList.add('open'); icon.style.transform = 'rotate(180deg)'; }
+  else { icon.style.transform = ''; }
+}
+</script>
+</body>
+</html>

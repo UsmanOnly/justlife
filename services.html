@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Services – Justlife</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { font-family: 'DM Sans', sans-serif; }
+  h1,h2,h3,h4 { font-family: 'Sora', sans-serif; }
+  .btn-green { background: #1DB954; color: white; border-radius: 8px; font-weight: 600; transition: all 0.2s; }
+  .btn-green:hover { background: #17a348; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(29,185,84,0.35); }
+  .card { border-radius: 12px; transition: all 0.25s; }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.1); }
+  .filter-btn.active { background:#1DB954; color:white; border-color:#1DB954; }
+  .slide-drawer { transform: translateX(100%); transition: transform 0.3s ease; }
+  .slide-drawer.open { transform: translateX(0); }
+  .overlay { opacity:0; pointer-events:none; transition:opacity 0.3s; }
+  .overlay.open { opacity:1; pointer-events:auto; }
+  .range-thumb { accent-color: #1DB954; }
+  .service-hidden { display: none; }
+</style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+<div id="overlay" class="overlay fixed inset-0 bg-black/50 z-40" onclick="closeMenu()"></div>
+<div id="drawer" class="slide-drawer fixed top-0 right-0 h-full w-72 bg-white z-50 shadow-2xl p-6 flex flex-col gap-4">
+  <div class="flex justify-between items-center mb-4">
+    <span class="font-bold text-xl text-green-600">Justlife</span>
+    <button onclick="closeMenu()" class="text-gray-500 hover:text-gray-900">
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <a href="services.html" class="py-3 border-b border-gray-100 font-medium text-green-600">Services</a>
+  <a href="index.html#how-it-works" class="py-3 border-b border-gray-100 font-medium text-gray-700 hover:text-green-600">How it Works</a>
+  <a href="index.html#about" class="py-3 border-b border-gray-100 font-medium text-gray-700 hover:text-green-600">About</a>
+  <a href="login.html" class="py-3 border-b border-gray-100 font-medium text-gray-700 hover:text-green-600">Login</a>
+  <a href="register.html" class="btn-green py-3 px-4 text-center rounded-lg mt-2">Sign Up</a>
+</div>
+
+<!-- NAVBAR -->
+<nav class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-gray-100 shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-2">
+      <div class="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
+        <svg width="18" height="18" fill="white" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22" fill="none" stroke="white" stroke-width="1.5"/></svg>
+      </div>
+      <span class="font-bold text-xl" style="font-family:'Sora',sans-serif; color:#1DB954;">Justlife</span>
+    </a>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="services.html" class="text-green-600 font-semibold border-b-2 border-green-500 pb-0.5">Services</a>
+      <a href="index.html#how-it-works" class="text-gray-700 font-medium hover:text-green-600">How it Works</a>
+      <a href="index.html#about" class="text-gray-700 font-medium hover:text-green-600">About</a>
+    </div>
+    <div class="hidden md:flex items-center gap-3">
+      <select class="border border-gray-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400">
+        <option>🇦🇪 UAE</option><option>🇸🇦 KSA</option><option>🇶🇦 Qatar</option>
+      </select>
+      <button onclick="toggleRTL()" class="border border-gray-200 rounded-lg px-3 py-1.5 text-sm font-medium hover:bg-gray-50">EN/AR</button>
+      <a href="login.html" class="text-gray-700 font-medium hover:text-green-600 px-3 py-1.5">Login</a>
+      <a href="register.html" class="btn-green px-5 py-2 text-sm">Sign Up</a>
+    </div>
+    <button class="md:hidden" onclick="openMenu()">
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="bg-white border-b border-gray-100 py-8 px-4">
+  <div class="max-w-7xl mx-auto">
+    <nav class="flex items-center gap-2 text-sm text-gray-500 mb-3">
+      <a href="index.html" class="hover:text-green-600">Home</a>
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+      <span class="text-gray-900 font-medium">All Services</span>
+    </nav>
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div>
+        <h1 class="text-3xl font-bold text-gray-900">All Services</h1>
+        <p class="text-gray-500 mt-1">Browse from 12+ professional home services</p>
+      </div>
+      <div class="relative max-w-sm w-full sm:w-auto">
+        <svg width="18" height="18" fill="none" stroke="#9CA3AF" stroke-width="2" viewBox="0 0 24 24" class="absolute left-3 top-1/2 -translate-y-1/2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input id="searchInput" type="text" placeholder="Search services..." oninput="filterServices()" class="pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl w-full sm:w-64 focus:outline-none focus:ring-2 focus:ring-green-400 bg-white text-sm">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="max-w-7xl mx-auto px-4 py-10">
+  <div class="flex flex-col lg:flex-row gap-8">
+
+    <!-- FILTER SIDEBAR -->
+    <aside class="lg:w-64 flex-shrink-0">
+      <div class="bg-white rounded-2xl border border-gray-100 p-6 sticky top-24">
+        <h3 class="font-bold text-gray-900 mb-5 text-lg">Filters</h3>
+        
+        <div class="mb-6">
+          <h4 class="font-semibold text-gray-700 mb-3 text-sm uppercase tracking-wide">Category</h4>
+          <div class="space-y-2">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="radio" name="category" value="all" checked onchange="filterServices()" class="accent-green-500"> <span class="text-sm text-gray-700">All Categories</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="radio" name="category" value="cleaning" onchange="filterServices()" class="accent-green-500"> <span class="text-sm text-gray-700">Cleaning</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="radio" name="category" value="beauty" onchange="filterServices()" class="accent-green-500"> <span class="text-sm text-gray-700">Beauty & Wellness</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="radio" name="category" value="health" onchange="filterServices()" class="accent-green-500"> <span class="text-sm text-gray-700">Health at Home</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="radio" name="category" value="maintenance" onchange="filterServices()" class="accent-green-500"> <span class="text-sm text-gray-700">Maintenance</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <h4 class="font-semibold text-gray-700 mb-3 text-sm uppercase tracking-wide">City</h4>
+          <select onchange="filterServices()" id="cityFilter" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-400">
+            <option value="all">All Cities</option>
+            <option value="dubai">Dubai</option>
+            <option value="abudhabi">Abu Dhabi</option>
+            <option value="riyadh">Riyadh</option>
+            <option value="doha">Doha</option>
+          </select>
+        </div>
+
+        <div class="mb-6">
+          <h4 class="font-semibold text-gray-700 mb-3 text-sm uppercase tracking-wide">Price Range</h4>
+          <input type="range" id="priceRange" min="0" max="500" value="500" step="10" class="w-full range-thumb" oninput="updatePrice(this)">
+          <div class="flex justify-between text-xs text-gray-500 mt-1">
+            <span>AED 0</span>
+            <span id="priceLabel" class="font-medium text-green-600">AED 500</span>
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <h4 class="font-semibold text-gray-700 mb-3 text-sm uppercase tracking-wide">Rating</h4>
+          <div class="space-y-2">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" class="accent-green-500"> <span class="text-sm text-yellow-500">★★★★★</span> <span class="text-xs text-gray-500">5 stars</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" class="accent-green-500"> <span class="text-sm text-yellow-500">★★★★☆</span> <span class="text-xs text-gray-500">4+ stars</span>
+            </label>
+          </div>
+        </div>
+
+        <button onclick="clearFilters()" class="w-full border-2 border-gray-200 text-gray-600 rounded-xl py-2 text-sm font-medium hover:border-green-400 hover:text-green-600 transition">Clear Filters</button>
+      </div>
+    </aside>
+
+    <!-- SERVICES GRID -->
+    <div class="flex-1">
+      <div id="servicesGrid" class="grid sm:grid-cols-2 xl:grid-cols-3 gap-5">
+
+        <div data-category="cleaning" data-price="89" data-name="home cleaning" class="service-item card bg-white border border-gray-100 overflow-hidden">
+          <div class="h-36 bg-gradient-to-br from-green-100 to-emerald-200 flex items-center justify-center">
+            <svg width="52" height="52" fill="none" stroke="#1DB954" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22" fill="none"/></svg>
+          </div>
+          <div class="p-5">
+            <div class="flex items-start justify-between mb-2">
+              <h3 class="font-bold text-gray-900">Home Cleaning</h3>
+              <span class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">Popular</span>
+            </div>
+            <p class="text-sm text-gray-500 mb-3">Deep cleaning for your entire home by verified professionals.</p>
+            <div class="flex items-center gap-1 mb-3">
+              <span class="text-yellow-400 text-sm">★★★★★</span>
+              <span class="text-xs text-gray-500">(4.8 · 2,340 reviews)</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div><span class="text-xs text-gray-400">Starting from</span><br><span class="font-bold text-green-600 text-lg">AED 89</span></div>
+              <a href="service-detail.html" class="btn-green px-4 py-2 text-sm">Book Now</a>
+            </div>
+          </div>
+        </div>
+
+        <div data-category="beauty" data-price="49" data-name="women's salon" class="service-item card bg-white border border-gray-100 overflow-hidden">
+          <div class="h-36 bg-gradient-to-br from-pink-100 to-rose-200 flex items-center justify-center">
+            <svg width="52" height="52" fill="none" stroke="#ec4899" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-1a6 6 0 0112 0v1"/></svg>
+          </div>
+          <div class="p-5">
+            <div class="flex items-start justify-between mb-2">
+              <h3 class="font-bold text-gray-900">Women's Salon</h3>
+              <span class="text-xs bg-pink-100 text-pink-700 px-2 py-0.5 rounded-full font-medium">Top Rated</span>
+            </div>
+            <p class="text-sm text-gray-500 mb-3">Professional salon services for women at the comfort of your home.</p>
+            <div class="flex items-center gap-1 mb-3">
+              <span class="text-yellow-400 text-sm">★★★★★</span>
+              <span class="text-xs text-gray-500">(4.9 · 1,856 reviews)</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div><span class="text-xs text-gray-400">Starting from</span><br><span class="font-bold text-green-600 text-lg">AED 49</span></div>
+              <a href="service-detail.html" class="btn-green px-4 py-2 text-sm">Book Now</a>
+            </div>
+          </div>
+        </div>
+
+        <div data-category="beauty" data-price="99" data-name="women's spa" class="service-item card bg-white border border-gray-100 overflow-hidden">
+          <div class="h-36 bg-gradient-to-br from-purple-100 to-violet-200 flex items-center justify-center">
+            <svg width="52" height="52" fill="none" stroke="#9333ea" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg>
+          </div>
+          <div class="p-5">
+            <div class="flex items-start justify-between mb-2">
+              <h3 class="font-bold text-gray-900">Women's Spa</h3>
+            </div>
+            <p class="text-sm text-gray-500 mb-3">Relaxing spa treatments and massages delivered to your door.</p>
+            <div class="flex items-center gap-1 mb-3">
+              <span class="text-yellow-400 text-sm">★★★★★</span>
+              <span class="text-xs text-gray-500">(4.7 · 980 reviews)</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div><span class="text-xs text-gray-400">Starting from</span><br><span class="font-bold text-green-600 text-lg">AED 99</span></div>
+              <a href="service-detail.html" class="btn-green px-4 py-2 text-sm">Book Now</a>
+            </div>
+          </div>
+        </div>
+
+        <div data-category="cleaning" data-price="69" data-name="ac cleaning" class="service-item card bg-white border border-gray-100 overflow-hidden">
+          <div class="h-36 bg-gradient-to-br from-blue-100 to-sky-200 flex items-center justify-center">
+            <svg width="52" height="52" fill="none" stroke="#3b82f6" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div class="p-5">
+            <div class="flex items-start justify-between mb-2">
+              <h3 class="font-bold text-gray-900">A/C Cleaning</h3>
+              <span class="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium">Essential</span>
+            </div>
+            <p class="text-sm text-gray-500 mb-3">Deep clean your AC units for better air quality and efficiency.</p>
+            <div class="flex items-center gap-1 mb-3">
+              <span class="text-yellow-400 text-sm">★★★★☆</span>
+              <span class="text-xs text-gray-500">(4.6 · 1,200 reviews)</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div><span class="text-xs text-gray-400">Starting from</span><br><span class="font-bold text-green-600 text-lg">AED 69</span></div>
+              <a href="service-detail.html" class="btn-green px-4 py-2 text-sm">Book Now</a>
+            </div>
+          </div>
+        </div>
+
+        <div data-category="cleaning" data-price="79" data-name="furniture cleaning" class="service-item card bg-white border border-gray-100 overflow-hidden">
+          <div class="h-36 bg-gradient-to-br from-amber-100 to-yellow-200 flex items-center justify-center">
+            <svg width="52" height="52" fill="none" stroke="#f59e0b" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <div class="p-5">
+            <div class="flex items-start justify-between mb-2">
+              <h3 class="font-bold text-gray-900">Furniture Cleaning</h3>
+            </div>
+            <p class="text-sm text-gray-500 mb-3">Steam and deep cleaning for sofas, carpets, and mattresses.</p>
+            <div class="flex items-center gap-1 mb-3">
+              <span class="text-yellow-400 text-sm">★★★★☆</span>
+              <span class="text-xs text-gray-500">(4.5 · 763 reviews)</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div><span class="text-xs text-gray-400">Starting from</span><br><span class="font-bold text-green-600 text-lg">AED 79</span></div>
+              <a href="service-detail.html" class="btn-green px-4 py-2 text-sm">Book Now</a>
+            </div>
+          </div>
+        </div>
+
+        <div data-category="beauty" data-price="39" data-name="men's grooming" class="service-item card bg-white border border-gray-100 overflow-hidden">
+          <div class="h-36 bg-gradient-to-br from-teal-100 to-cyan-200 flex items-center justify-center">
+            <svg width="52" height="52" fill="none" stroke="#14b8a6" stroke-width="1.5" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+          </div>
+          <div class="p-5">
+            <div class="flex items-start justify-between mb-2">
+              <h3 class="font-bold text-gray-900">Men's Grooming</h3>
+              <span class="text-xs bg-teal-100 text-teal-700 px-2 py-0.5 rounded-full font-medium">New</span>
+            </div>
+            <p class="text-sm text-gray-500 mb-3">Haircut, shaving, and grooming services delivered at home.</p>
+            <div class="flex items-center gap-1 mb-3">
+              <span class="text-yellow-400 text-sm">★★★★★</span>
+              <span class="text-xs text-gray-500">(4.8 · 540 reviews)</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div><span class="text-xs text-gray-400">Starting from</span><br><span class="font-bold text-green-600 text-lg">AED 39</span></div>
+              <a href="service-detail.html" class="btn-green px-4 py-2 text-sm">Book Now</a>
+            </div>
+          </div>
+        </div>
+
+        <div data-category="health" data-price="149" data-name="pcr at home" class="service-item card bg-white border border-gray-100 overflow-hidden">
+          <div class="h-36 bg-gradient-to-br from-red-100 to-rose-200 flex items-center justify-center">
+            <svg width="52" height="52" fill="none" stroke="#ef4444" stroke-width="1.5" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </div>
+          <div class="p-5">
+            <div class="flex items-start justify-between mb-2">
+              <h3 class="font-bold text-gray-900">PCR at Home</h3>
+            </div>
+            <p class="text-sm text-gray-500 mb-3">Fast, reliable COVID PCR testing from certified nurses at home.</p>
+            <div class="flex items-center gap-1 mb-3">
+              <span class="text-yellow-400 text-sm">★★★★★</span>
+              <span class="text-xs text-gray-500">(4.9 · 890 reviews)</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div><span class="text-xs text-gray-400">Starting from</span><br><span class="font-bold text-green-600 text-lg">AED 149</span></div>
+              <a href="service-detail.html" class="btn-green px-4 py-2 text-sm">Book Now</a>
+            </div>
+          </div>
+        </div>
+
+        <div data-category="health" data-price="199" data-name="lab at home" class="service-item card bg-white border border-gray-100 overflow-hidden">
+          <div class="h-36 bg-gradient-to-br from-indigo-100 to-violet-200 flex items-center justify-center">
+            <svg width="52" height="52" fill="none" stroke="#6366f1" stroke-width="1.5" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/></svg>
+          </div>
+          <div class="p-5">
+            <div class="flex items-start justify-between mb-2">
+              <h3 class="font-bold text-gray-900">Lab at Home</h3>
+            </div>
+            <p class="text-sm text-gray-500 mb-3">Blood tests, urine tests, and more by certified lab technicians.</p>
+            <div class="flex items-center gap-1 mb-3">
+              <span class="text-yellow-400 text-sm">★★★★★</span>
+              <span class="text-xs text-gray-500">(4.8 · 420 reviews)</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div><span class="text-xs text-gray-400">Starting from</span><br><span class="font-bold text-green-600 text-lg">AED 199</span></div>
+              <a href="service-detail.html" class="btn-green px-4 py-2 text-sm">Book Now</a>
+            </div>
+          </div>
+        </div>
+
+        <div data-category="maintenance" data-price="129" data-name="pest control" class="service-item card bg-white border border-gray-100 overflow-hidden">
+          <div class="h-36 bg-gradient-to-br from-orange-100 to-amber-200 flex items-center justify-center">
+            <svg width="52" height="52" fill="none" stroke="#f97316" stroke-width="1.5" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <div class="p-5">
+            <div class="flex items-start justify-between mb-2">
+              <h3 class="font-bold text-gray-900">Pest Control</h3>
+            </div>
+            <p class="text-sm text-gray-500 mb-3">Safe and effective pest elimination with certified products.</p>
+            <div class="flex items-center gap-1 mb-3">
+              <span class="text-yellow-400 text-sm">★★★★☆</span>
+              <span class="text-xs text-gray-500">(4.6 · 670 reviews)</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div><span class="text-xs text-gray-400">Starting from</span><br><span class="font-bold text-green-600 text-lg">AED 129</span></div>
+              <a href="service-detail.html" class="btn-green px-4 py-2 text-sm">Book Now</a>
+            </div>
+          </div>
+        </div>
+
+        <div data-category="cleaning" data-price="99" data-name="disinfection" class="service-item card bg-white border border-gray-100 overflow-hidden">
+          <div class="h-36 bg-gradient-to-br from-cyan-100 to-teal-200 flex items-center justify-center">
+            <svg width="52" height="52" fill="none" stroke="#06b6d4" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          </div>
+          <div class="p-5">
+            <div class="flex items-start justify-between mb-2">
+              <h3 class="font-bold text-gray-900">Disinfection</h3>
+            </div>
+            <p class="text-sm text-gray-500 mb-3">Hospital-grade disinfection for homes, offices, and vehicles.</p>
+            <div class="flex items-center gap-1 mb-3">
+              <span class="text-yellow-400 text-sm">★★★★★</span>
+              <span class="text-xs text-gray-500">(4.9 · 310 reviews)</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div><span class="text-xs text-gray-400">Starting from</span><br><span class="font-bold text-green-600 text-lg">AED 99</span></div>
+              <a href="service-detail.html" class="btn-green px-4 py-2 text-sm">Book Now</a>
+            </div>
+          </div>
+        </div>
+
+        <div data-category="maintenance" data-price="59" data-name="handyman" class="service-item card bg-white border border-gray-100 overflow-hidden">
+          <div class="h-36 bg-gradient-to-br from-yellow-100 to-amber-200 flex items-center justify-center">
+            <svg width="52" height="52" fill="none" stroke="#eab308" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+          </div>
+          <div class="p-5">
+            <div class="flex items-start justify-between mb-2">
+              <h3 class="font-bold text-gray-900">Handyman</h3>
+              <span class="text-xs bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full font-medium">Popular</span>
+            </div>
+            <p class="text-sm text-gray-500 mb-3">Plumbing, electrical, painting and all general repairs.</p>
+            <div class="flex items-center gap-1 mb-3">
+              <span class="text-yellow-400 text-sm">★★★★☆</span>
+              <span class="text-xs text-gray-500">(4.7 · 1,540 reviews)</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div><span class="text-xs text-gray-400">Starting from</span><br><span class="font-bold text-green-600 text-lg">AED 59</span></div>
+              <a href="service-detail.html" class="btn-green px-4 py-2 text-sm">Book Now</a>
+            </div>
+          </div>
+        </div>
+
+        <div data-category="maintenance" data-price="49" data-name="car wash" class="service-item card bg-white border border-gray-100 overflow-hidden">
+          <div class="h-36 bg-gradient-to-br from-sky-100 to-blue-200 flex items-center justify-center">
+            <svg width="52" height="52" fill="none" stroke="#0ea5e9" stroke-width="1.5" viewBox="0 0 24 24"><path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11a2 2 0 012 2v3"/><rect x="9" y="11" width="14" height="10" rx="2"/><circle cx="13" cy="16" r="2"/></svg>
+          </div>
+          <div class="p-5">
+            <div class="flex items-start justify-between mb-2">
+              <h3 class="font-bold text-gray-900">Car Wash</h3>
+            </div>
+            <p class="text-sm text-gray-500 mb-3">Waterless or full wash for your car right in your parking spot.</p>
+            <div class="flex items-center gap-1 mb-3">
+              <span class="text-yellow-400 text-sm">★★★★☆</span>
+              <span class="text-xs text-gray-500">(4.5 · 890 reviews)</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div><span class="text-xs text-gray-400">Starting from</span><br><span class="font-bold text-green-600 text-lg">AED 49</span></div>
+              <a href="service-detail.html" class="btn-green px-4 py-2 text-sm">Book Now</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div id="noResults" class="hidden text-center py-16 text-gray-400">
+        <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" class="mx-auto mb-4"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <p class="text-lg font-medium">No services found</p>
+        <p class="text-sm mt-1">Try adjusting your search or filters</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="bg-gray-900 text-gray-400 py-12 px-4 mt-10">
+  <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-sm">
+    <div class="flex items-center gap-2">
+      <div class="w-7 h-7 bg-green-500 rounded-lg flex items-center justify-center"><svg width="14" height="14" fill="white" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div>
+      <span class="font-bold text-white" style="font-family:'Sora',sans-serif;">Justlife</span>
+    </div>
+    <p>© 2024 Justlife Technologies. All rights reserved.</p>
+    <div class="flex gap-5"><a href="#" class="hover:text-green-400 transition">Terms</a><a href="#" class="hover:text-green-400 transition">Privacy</a></div>
+  </div>
+</footer>
+
+<script>
+function openMenu() { document.getElementById('drawer').classList.add('open'); document.getElementById('overlay').classList.add('open'); }
+function closeMenu() { document.getElementById('drawer').classList.remove('open'); document.getElementById('overlay').classList.remove('open'); }
+function toggleRTL() { const h = document.documentElement; h.setAttribute('dir', h.getAttribute('dir') === 'rtl' ? 'ltr' : 'rtl'); }
+function updatePrice(el) { document.getElementById('priceLabel').textContent = 'AED ' + el.value; filterServices(); }
+function clearFilters() {
+  document.querySelectorAll('input[name="category"]')[0].checked = true;
+  document.getElementById('cityFilter').value = 'all';
+  document.getElementById('priceRange').value = 500;
+  document.getElementById('priceLabel').textContent = 'AED 500';
+  document.getElementById('searchInput').value = '';
+  filterServices();
+}
+function filterServices() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const category = document.querySelector('input[name="category"]:checked').value;
+  const maxPrice = parseInt(document.getElementById('priceRange').value);
+  const items = document.querySelectorAll('.service-item');
+  let visible = 0;
+  items.forEach(item => {
+    const name = item.dataset.name || '';
+    const cat = item.dataset.category || '';
+    const price = parseInt(item.dataset.price) || 0;
+    const matchSearch = name.includes(search);
+    const matchCat = category === 'all' || cat === category;
+    const matchPrice = price <= maxPrice;
+    if (matchSearch && matchCat && matchPrice) { item.style.display = ''; visible++; }
+    else { item.style.display = 'none'; }
+  });
+  document.getElementById('noResults').classList.toggle('hidden', visible > 0);
+}
+</script>
+</body>
+</html>

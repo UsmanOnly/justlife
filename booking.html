@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book Home Cleaning – Justlife</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<style>
+  * { font-family: 'DM Sans', sans-serif; }
+  h1,h2,h3,h4 { font-family: 'Sora', sans-serif; }
+  .btn-green { background: #1DB954; color: white; border-radius: 8px; font-weight: 600; transition: all 0.2s; }
+  .btn-green:hover { background: #17a348; box-shadow: 0 4px 12px rgba(29,185,84,0.35); }
+  .btn-outline { border: 2px solid #e5e7eb; color: #374151; border-radius: 8px; font-weight: 600; transition: all 0.2s; }
+  .btn-outline:hover { border-color: #1DB954; color: #1DB954; }
+  .step-panel { display: none; }
+  .step-panel.active { display: block; }
+  .step-circle { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.875rem; transition: all 0.3s; }
+  .step-circle.done { background: #1DB954; color: white; }
+  .step-circle.current { background: #1DB954; color: white; box-shadow: 0 0 0 4px rgba(29,185,84,0.2); }
+  .step-circle.pending { background: #e5e7eb; color: #9ca3af; }
+  .step-line { flex: 1; height: 2px; transition: background 0.3s; }
+  .time-slot { cursor:pointer; border:2px solid #e5e7eb; border-radius:8px; padding:8px 12px; text-align:center; font-size:0.875rem; transition:all 0.2s; }
+  .time-slot:hover { border-color:#1DB954; }
+  .time-slot.selected { background:#1DB954; color:white; border-color:#1DB954; }
+  .time-slot.disabled { opacity:0.4; cursor:not-allowed; background:#f3f4f6; }
+  .extra-cb:checked + label { border-color:#1DB954; background:#f0fdf4; }
+  .qty-btn { width:32px; height:32px; border-radius:8px; border:2px solid #e5e7eb; display:flex; align-items:center; justify-content:center; cursor:pointer; font-weight:700; transition:all 0.2s; user-select:none; }
+  .qty-btn:hover { border-color:#1DB954; color:#1DB954; }
+  .error-msg { color:#ef4444; font-size:0.75rem; margin-top:2px; display:none; }
+  .field-error { border-color: #ef4444 !important; }
+</style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+<nav class="sticky top-0 z-30 bg-white border-b border-gray-100 shadow-sm">
+  <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-2">
+      <div class="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center"><svg width="18" height="18" fill="white" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div>
+      <span class="font-bold text-xl" style="font-family:'Sora',sans-serif; color:#1DB954;">Justlife</span>
+    </a>
+    <a href="service-detail.html" class="flex items-center gap-1 text-sm text-gray-500 hover:text-green-600">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>Back to service
+    </a>
+  </div>
+</nav>
+
+<div class="max-w-5xl mx-auto px-4 py-8">
+  <!-- PROGRESS BAR -->
+  <div class="flex items-center justify-center mb-10">
+    <div class="flex items-center gap-0 w-full max-w-xl">
+      <div class="flex flex-col items-center">
+        <div id="circle1" class="step-circle current">1</div>
+        <span class="text-xs mt-1 font-medium text-green-600">Customize</span>
+      </div>
+      <div id="line1" class="step-line bg-gray-200"></div>
+      <div class="flex flex-col items-center">
+        <div id="circle2" class="step-circle pending">2</div>
+        <span class="text-xs mt-1 text-gray-400">Date & Time</span>
+      </div>
+      <div id="line2" class="step-line bg-gray-200"></div>
+      <div class="flex flex-col items-center">
+        <div id="circle3" class="step-circle pending">3</div>
+        <span class="text-xs mt-1 text-gray-400">Address</span>
+      </div>
+      <div id="line3" class="step-line bg-gray-200"></div>
+      <div class="flex flex-col items-center">
+        <div id="circle4" class="step-circle pending">4</div>
+        <span class="text-xs mt-1 text-gray-400">Confirm</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex flex-col lg:flex-row gap-8">
+    <!-- MAIN FORM -->
+    <div class="flex-1">
+
+      <!-- STEP 1: Customize -->
+      <div id="step1" class="step-panel active">
+        <div class="bg-white rounded-2xl border border-gray-100 p-7">
+          <h2 class="text-2xl font-bold mb-6">Customize Your Service</h2>
+          
+          <div class="mb-7">
+            <label class="block font-semibold text-gray-700 mb-3">Number of Hours</label>
+            <div class="flex items-center gap-4">
+              <button class="qty-btn text-xl" onclick="changeHours(-1)">−</button>
+              <div class="text-center">
+                <span id="hoursVal" class="text-3xl font-bold text-gray-900">3</span>
+                <div class="text-sm text-gray-500">hours</div>
+              </div>
+              <button class="qty-btn text-xl" onclick="changeHours(1)">+</button>
+            </div>
+            <p class="text-xs text-gray-400 mt-2">Recommended: 2hrs for 1BR, 3hrs for 2BR, 4hrs for 3BR</p>
+          </div>
+
+          <div class="mb-7">
+            <label class="block font-semibold text-gray-700 mb-3">Number of Rooms</label>
+            <div class="grid grid-cols-4 gap-3">
+              <button onclick="selectRooms(this,1)" class="room-btn border-2 border-gray-200 rounded-xl py-3 text-center hover:border-green-400 font-medium text-sm transition">1 BR</button>
+              <button onclick="selectRooms(this,2)" class="room-btn border-2 border-green-500 bg-green-50 rounded-xl py-3 text-center font-medium text-sm text-green-700">2 BR</button>
+              <button onclick="selectRooms(this,3)" class="room-btn border-2 border-gray-200 rounded-xl py-3 text-center hover:border-green-400 font-medium text-sm transition">3 BR</button>
+              <button onclick="selectRooms(this,4)" class="room-btn border-2 border-gray-200 rounded-xl py-3 text-center hover:border-green-400 font-medium text-sm transition">4+ BR</button>
+            </div>
+          </div>
+
+          <div class="mb-7">
+            <label class="block font-semibold text-gray-700 mb-3">Add Extras</label>
+            <div class="space-y-3">
+              <div class="flex items-center justify-between p-4 border-2 border-gray-100 rounded-xl hover:border-green-200 transition cursor-pointer" onclick="toggleExtra(this, 30)">
+                <div class="flex items-center gap-3">
+                  <input type="checkbox" class="accent-green-500 w-5 h-5" onclick="event.stopPropagation()">
+                  <div><div class="font-medium text-sm">Inside Fridge Cleaning</div><div class="text-xs text-gray-400">Thorough clean of all shelves</div></div>
+                </div>
+                <span class="font-bold text-green-600 text-sm">+AED 30</span>
+              </div>
+              <div class="flex items-center justify-between p-4 border-2 border-gray-100 rounded-xl hover:border-green-200 transition cursor-pointer" onclick="toggleExtra(this, 25)">
+                <div class="flex items-center gap-3">
+                  <input type="checkbox" class="accent-green-500 w-5 h-5" onclick="event.stopPropagation()">
+                  <div><div class="font-medium text-sm">Inside Oven Cleaning</div><div class="text-xs text-gray-400">Deep clean of oven interior</div></div>
+                </div>
+                <span class="font-bold text-green-600 text-sm">+AED 25</span>
+              </div>
+              <div class="flex items-center justify-between p-4 border-2 border-gray-100 rounded-xl hover:border-green-200 transition cursor-pointer" onclick="toggleExtra(this, 20)">
+                <div class="flex items-center gap-3">
+                  <input type="checkbox" class="accent-green-500 w-5 h-5" onclick="event.stopPropagation()">
+                  <div><div class="font-medium text-sm">Window Cleaning</div><div class="text-xs text-gray-400">Interior windows & glass</div></div>
+                </div>
+                <span class="font-bold text-green-600 text-sm">+AED 20</span>
+              </div>
+              <div class="flex items-center justify-between p-4 border-2 border-gray-100 rounded-xl hover:border-green-200 transition cursor-pointer" onclick="toggleExtra(this, 35)">
+                <div class="flex items-center gap-3">
+                  <input type="checkbox" class="accent-green-500 w-5 h-5" onclick="event.stopPropagation()">
+                  <div><div class="font-medium text-sm">Laundry & Ironing</div><div class="text-xs text-gray-400">Wash, dry & iron up to 5kg</div></div>
+                </div>
+                <span class="font-bold text-green-600 text-sm">+AED 35</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex justify-end">
+            <button onclick="goToStep(2)" class="btn-green px-8 py-3 text-base flex items-center gap-2">Next: Date & Time <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2: Date & Time -->
+      <div id="step2" class="step-panel">
+        <div class="bg-white rounded-2xl border border-gray-100 p-7">
+          <h2 class="text-2xl font-bold mb-6">Choose Date & Time</h2>
+          <div class="mb-6">
+            <label class="block font-semibold text-gray-700 mb-3">Select Date</label>
+            <input id="flatDate" type="text" placeholder="Pick a date" class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-green-400" readonly>
+          </div>
+          <div class="mb-8">
+            <label class="block font-semibold text-gray-700 mb-3">Select Time Slot</label>
+            <div class="grid grid-cols-3 sm:grid-cols-4 gap-3">
+              <div class="time-slot disabled">7:00 AM</div>
+              <div class="time-slot disabled">8:00 AM</div>
+              <div class="time-slot" onclick="selectSlot(this)">9:00 AM</div>
+              <div class="time-slot selected" onclick="selectSlot(this)">10:00 AM</div>
+              <div class="time-slot" onclick="selectSlot(this)">11:00 AM</div>
+              <div class="time-slot" onclick="selectSlot(this)">12:00 PM</div>
+              <div class="time-slot disabled">1:00 PM</div>
+              <div class="time-slot" onclick="selectSlot(this)">2:00 PM</div>
+              <div class="time-slot" onclick="selectSlot(this)">3:00 PM</div>
+              <div class="time-slot" onclick="selectSlot(this)">4:00 PM</div>
+              <div class="time-slot" onclick="selectSlot(this)">5:00 PM</div>
+              <div class="time-slot disabled">6:00 PM</div>
+            </div>
+            <p class="text-xs text-gray-400 mt-2">
+              <span class="inline-block w-3 h-3 bg-gray-100 border border-gray-300 rounded mr-1 align-middle"></span>Not available &nbsp;
+              <span class="inline-block w-3 h-3 bg-green-500 rounded mr-1 align-middle"></span>Selected
+            </p>
+          </div>
+          <div id="step2Error" class="error-msg mb-4" style="display:none;">Please select a date and time slot.</div>
+          <div class="flex justify-between">
+            <button onclick="goToStep(1)" class="btn-outline px-6 py-3 flex items-center gap-2"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>Back</button>
+            <button onclick="validateStep2()" class="btn-green px-8 py-3 flex items-center gap-2">Next: Address <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3: Address -->
+      <div id="step3" class="step-panel">
+        <div class="bg-white rounded-2xl border border-gray-100 p-7">
+          <h2 class="text-2xl font-bold mb-6">Service Address</h2>
+          <div class="grid sm:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-1.5">Flat / Apartment No. *</label>
+              <input id="flat" type="text" placeholder="e.g. 204" class="w-full border-2 border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400">
+              <div id="flatErr" class="error-msg">This field is required.</div>
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-1.5">Building / Tower *</label>
+              <input id="building" type="text" placeholder="e.g. Marina Tower" class="w-full border-2 border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400">
+              <div id="buildingErr" class="error-msg">This field is required.</div>
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-1.5">Street / Road *</label>
+              <input id="street" type="text" placeholder="e.g. Sheikh Zayed Road" class="w-full border-2 border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400">
+              <div id="streetErr" class="error-msg">This field is required.</div>
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-1.5">Area / Community *</label>
+              <input id="area" type="text" placeholder="e.g. Dubai Marina" class="w-full border-2 border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400">
+              <div id="areaErr" class="error-msg">This field is required.</div>
+            </div>
+          </div>
+          <div class="mb-4">
+            <label class="block text-sm font-semibold text-gray-700 mb-1.5">City *</label>
+            <select id="city" class="w-full border-2 border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400">
+              <option value="">Select city...</option>
+              <option>Dubai</option><option>Abu Dhabi</option><option>Sharjah</option><option>Riyadh</option><option>Jeddah</option><option>Doha</option>
+            </select>
+            <div id="cityErr" class="error-msg">Please select a city.</div>
+          </div>
+          <div class="mb-6">
+            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Special Instructions (Optional)</label>
+            <textarea placeholder="e.g. Ring bell twice, door code is 1234, please use fragrance-free products..." rows="3" class="w-full border-2 border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 resize-none"></textarea>
+          </div>
+          <div class="flex justify-between">
+            <button onclick="goToStep(2)" class="btn-outline px-6 py-3 flex items-center gap-2"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>Back</button>
+            <button onclick="validateStep3()" class="btn-green px-8 py-3 flex items-center gap-2">Review Booking <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 4: Confirm -->
+      <div id="step4" class="step-panel">
+        <div class="bg-white rounded-2xl border border-gray-100 p-7">
+          <h2 class="text-2xl font-bold mb-6">Review & Confirm</h2>
+          
+          <div class="grid sm:grid-cols-2 gap-4 mb-6">
+            <div class="bg-green-50 p-4 rounded-xl border border-green-100">
+              <div class="text-xs text-gray-500 mb-1">Service</div>
+              <div class="font-semibold">Home Cleaning</div>
+              <div class="text-sm text-gray-500" id="reviewHours">3 hours</div>
+            </div>
+            <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
+              <div class="text-xs text-gray-500 mb-1">Date & Time</div>
+              <div class="font-semibold" id="reviewDate">—</div>
+              <div class="text-sm text-gray-500">10:00 AM</div>
+            </div>
+            <div class="bg-purple-50 p-4 rounded-xl border border-purple-100">
+              <div class="text-xs text-gray-500 mb-1">Address</div>
+              <div class="font-semibold text-sm" id="reviewAddress">Dubai Marina, Dubai</div>
+            </div>
+            <div class="bg-amber-50 p-4 rounded-xl border border-amber-100">
+              <div class="text-xs text-gray-500 mb-1">Professional Assigned</div>
+              <div class="flex items-center gap-2 mt-1">
+                <div class="w-8 h-8 bg-gradient-to-br from-green-400 to-teal-500 rounded-full flex items-center justify-center text-white font-bold text-sm">A</div>
+                <div><div class="font-semibold text-sm">Amira Hassan</div><div class="flex text-yellow-400 text-xs">★★★★★</div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Price Breakdown -->
+          <div class="bg-gray-50 rounded-xl p-5 mb-6">
+            <h3 class="font-bold mb-4">Price Breakdown</h3>
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between"><span class="text-gray-600" id="reviewBaseLabel">AED 89 × 3 hrs</span><span id="reviewBase">AED 267</span></div>
+              <div id="extrasLine" class="flex justify-between" style="display:none !important;"><span class="text-gray-600">Extras</span><span id="extrasAmount">AED 0</span></div>
+              <div class="flex justify-between"><span class="text-gray-600">Service fee</span><span>AED 10</span></div>
+              <div class="border-t pt-2 flex justify-between font-bold text-base"><span>Total</span><span class="text-green-600 text-lg" id="reviewTotal">AED 277</span></div>
+            </div>
+          </div>
+
+          <div class="flex justify-between">
+            <button onclick="goToStep(3)" class="btn-outline px-6 py-3 flex items-center gap-2"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>Back</button>
+            <a href="checkout.html" class="btn-green px-8 py-3 flex items-center gap-2 cursor-pointer">Proceed to Payment <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRICE SIDEBAR -->
+    <div class="lg:w-72 flex-shrink-0">
+      <div class="sticky top-24 bg-white rounded-2xl border border-gray-100 shadow p-5">
+        <h3 class="font-bold mb-4 text-gray-900">Order Summary</h3>
+        <div class="space-y-3 text-sm mb-4">
+          <div class="flex items-center gap-3 pb-3 border-b border-gray-100">
+            <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0"><svg width="20" height="20" fill="none" stroke="#1DB954" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div>
+            <div><div class="font-semibold">Home Cleaning</div><div class="text-gray-400 text-xs" id="sideHours">3 hours</div></div>
+          </div>
+          <div class="flex justify-between"><span class="text-gray-500" id="sideBaseLabel">AED 89 × 3 hrs</span><span id="sideBase">AED 267</span></div>
+          <div id="sideExtras" class="flex justify-between" style="display:none;"><span class="text-gray-500">Extras</span><span id="sideExtrasAmt">AED 0</span></div>
+          <div class="flex justify-between"><span class="text-gray-500">Service fee</span><span>AED 10</span></div>
+          <div class="border-t pt-2 flex justify-between font-bold"><span>Total</span><span class="text-green-600 text-lg" id="sideTotal">AED 277</span></div>
+        </div>
+        <div class="flex items-center gap-2 text-xs text-gray-400 bg-gray-50 rounded-lg p-3">
+          <svg width="16" height="16" fill="none" stroke="#1DB954" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          Free cancellation up to 2 hours before
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+let currentStep = 1;
+let hours = 3;
+let extrasTotal = 0;
+const rate = 89;
+
+flatpickr('#flatDate', { minDate: 'today', dateFormat: 'd M Y' });
+
+function goToStep(n) {
+  document.getElementById('step' + currentStep).classList.remove('active');
+  document.getElementById('step' + n).classList.add('active');
+  ['circle1','circle2','circle3','circle4'].forEach((id,i) => {
+    const c = document.getElementById(id);
+    c.className = 'step-circle ' + (i+1 < n ? 'done' : i+1 === n ? 'current' : 'pending');
+  });
+  ['line1','line2','line3'].forEach((id,i) => {
+    document.getElementById(id).style.background = i+1 < n ? '#1DB954' : '#e5e7eb';
+  });
+  currentStep = n;
+  if (n === 4) populateReview();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function changeHours(d) {
+  hours = Math.max(1, Math.min(12, hours + d));
+  document.getElementById('hoursVal').textContent = hours;
+  updatePrices();
+}
+
+function updatePrices() {
+  const sub = rate * hours + extrasTotal;
+  const total = sub + 10;
+  ['sideBase','reviewBase'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = 'AED '+(rate*hours); });
+  ['sideBaseLabel','reviewBaseLabel'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = 'AED '+rate+' × '+hours+' hrs'; });
+  ['sideHours','reviewHours'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = hours+' hours'; });
+  ['sideTotal','reviewTotal'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = 'AED '+total; });
+  if (extrasTotal > 0) {
+    ['sideExtras'].forEach(id => { const el = document.getElementById(id); if(el) el.style.display = 'flex'; });
+    ['sideExtrasAmt'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = 'AED '+extrasTotal; });
+  }
+}
+
+function toggleExtra(row, price) {
+  const cb = row.querySelector('input[type=checkbox]');
+  cb.checked = !cb.checked;
+  extrasTotal += cb.checked ? price : -price;
+  row.classList.toggle('border-green-400', cb.checked);
+  row.classList.toggle('bg-green-50', cb.checked);
+  updatePrices();
+}
+
+function selectRooms(btn, n) {
+  document.querySelectorAll('.room-btn').forEach(b => { b.className = 'room-btn border-2 border-gray-200 rounded-xl py-3 text-center hover:border-green-400 font-medium text-sm transition'; });
+  btn.className = 'room-btn border-2 border-green-500 bg-green-50 rounded-xl py-3 text-center font-medium text-sm text-green-700';
+}
+function selectSlot(el) {
+  if (el.classList.contains('disabled')) return;
+  el.closest('#step2, #step3, body').querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function validateStep2() {
+  const date = document.getElementById('flatDate').value;
+  const slot = document.querySelector('#step2 .time-slot.selected');
+  if (!date || !slot) { document.getElementById('step2Error').style.display = 'block'; return; }
+  document.getElementById('step2Error').style.display = 'none';
+  goToStep(3);
+}
+
+function validateStep3() {
+  const fields = ['flat','building','street','area','city'];
+  let valid = true;
+  fields.forEach(f => {
+    const el = document.getElementById(f);
+    const err = document.getElementById(f+'Err');
+    if (!el.value.trim()) { el.classList.add('field-error'); err.style.display = 'block'; valid = false; }
+    else { el.classList.remove('field-error'); err.style.display = 'none'; }
+  });
+  if (valid) goToStep(4);
+}
+
+function populateReview() {
+  const date = document.getElementById('flatDate').value;
+  document.getElementById('reviewDate').textContent = date || 'Not selected';
+  const flat = document.getElementById('flat').value;
+  const building = document.getElementById('building').value;
+  const area = document.getElementById('area').value;
+  const city = document.getElementById('city').value;
+  document.getElementById('reviewAddress').textContent = [flat, building, area, city].filter(Boolean).join(', ') || '—';
+}
+</script>
+</body>
+</html>

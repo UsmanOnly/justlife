@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Justlife – #1 Home Services Super App</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { font-family: 'DM Sans', sans-serif; }
+  h1,h2,h3,h4 { font-family: 'Sora', sans-serif; }
+  :root { --green: #1DB954; --dark: #111827; --gray: #6B7280; }
+  .btn-green { background: #1DB954; color: white; border-radius: 8px; font-weight: 600; transition: all 0.2s; }
+  .btn-green:hover { background: #17a348; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(29,185,84,0.35); }
+  .card { border-radius: 12px; transition: all 0.25s; }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.1); }
+  .nav-link { position: relative; }
+  .nav-link::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:2px; background:#1DB954; transition:width 0.25s; }
+  .nav-link:hover::after { width:100%; }
+  .hero-bg { background: linear-gradient(135deg, #f0fff4 0%, #dcfce7 40%, #bbf7d0 100%); }
+  .service-icon { width:56px; height:56px; border-radius:14px; display:flex; align-items:center; justify-content:center; }
+  .slide-drawer { transform: translateX(100%); transition: transform 0.3s ease; }
+  .slide-drawer.open { transform: translateX(0); }
+  .overlay { opacity:0; pointer-events:none; transition:opacity 0.3s; }
+  .overlay.open { opacity:1; pointer-events:auto; }
+  .star { color: #FBBF24; }
+  .review-card { min-width: 320px; }
+  [dir="rtl"] .slide-drawer { transform: translateX(-100%); }
+  [dir="rtl"] .slide-drawer.open { transform: translateX(0); }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+  .animate-fadeup { animation: fadeUp 0.6s ease forwards; }
+</style>
+</head>
+<body class="bg-white text-gray-900">
+
+<!-- OVERLAY -->
+<div id="overlay" class="overlay fixed inset-0 bg-black/50 z-40" onclick="closeMenu()"></div>
+
+<!-- MOBILE DRAWER -->
+<div id="drawer" class="slide-drawer fixed top-0 right-0 h-full w-72 bg-white z-50 shadow-2xl p-6 flex flex-col gap-4">
+  <div class="flex justify-between items-center mb-4">
+    <span class="font-bold text-xl text-green-600">Justlife</span>
+    <button onclick="closeMenu()" class="text-gray-500 hover:text-gray-900">
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <a href="services.html" class="py-3 border-b border-gray-100 font-medium text-gray-700 hover:text-green-600">Services</a>
+  <a href="#how-it-works" class="py-3 border-b border-gray-100 font-medium text-gray-700 hover:text-green-600">How it Works</a>
+  <a href="#about" class="py-3 border-b border-gray-100 font-medium text-gray-700 hover:text-green-600">About</a>
+  <a href="login.html" class="py-3 border-b border-gray-100 font-medium text-gray-700 hover:text-green-600">Login</a>
+  <a href="register.html" class="btn-green py-3 px-4 text-center rounded-lg mt-2">Sign Up</a>
+  <div class="mt-4 flex gap-2">
+    <select class="border rounded-lg px-3 py-2 text-sm flex-1 focus:outline-none focus:ring-2 focus:ring-green-400">
+      <option>🇦🇪 UAE</option><option>🇸🇦 KSA</option><option>🇶🇦 Qatar</option>
+    </select>
+    <button id="rtl-toggle-drawer" onclick="toggleRTL()" class="border rounded-lg px-3 py-2 text-sm font-medium hover:bg-gray-50">EN/AR</button>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-gray-100 shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-2">
+      <div class="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
+        <svg width="18" height="18" fill="white" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22" fill="none" stroke="white" stroke-width="1.5"/></svg>
+      </div>
+      <span class="font-bold text-xl" style="font-family:'Sora',sans-serif; color:#1DB954;">Justlife</span>
+    </a>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="services.html" class="nav-link text-gray-700 font-medium hover:text-green-600">Services</a>
+      <a href="#how-it-works" class="nav-link text-gray-700 font-medium hover:text-green-600">How it Works</a>
+      <a href="#about" class="nav-link text-gray-700 font-medium hover:text-green-600">About</a>
+    </div>
+    <div class="hidden md:flex items-center gap-3">
+      <select class="border border-gray-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400">
+        <option>🇦🇪 UAE</option><option>🇸🇦 KSA</option><option>🇶🇦 Qatar</option>
+      </select>
+      <button onclick="toggleRTL()" class="border border-gray-200 rounded-lg px-3 py-1.5 text-sm font-medium hover:bg-gray-50">EN/AR</button>
+      <a href="login.html" class="text-gray-700 font-medium hover:text-green-600 px-3 py-1.5">Login</a>
+      <a href="register.html" class="btn-green px-5 py-2 text-sm">Sign Up</a>
+    </div>
+    <button class="md:hidden" onclick="openMenu()">
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero-bg py-20 px-4">
+  <div class="max-w-4xl mx-auto text-center animate-fadeup">
+    <div class="inline-flex items-center gap-2 bg-green-100 text-green-700 rounded-full px-4 py-1.5 text-sm font-medium mb-6">
+      <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      Trusted by 500,000+ customers across the Gulf
+    </div>
+    <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">
+      #1 Super App for<br><span class="text-green-500">Home Services</span>
+    </h1>
+    <p class="text-xl text-gray-600 mb-10 max-w-2xl mx-auto">Book verified professionals for cleaning, beauty, handyman, and more — delivered to your door across UAE, KSA & Qatar.</p>
+    
+    <!-- Search Bar -->
+    <div class="bg-white rounded-2xl shadow-xl p-2 flex flex-col sm:flex-row gap-2 max-w-2xl mx-auto">
+      <div class="flex-1 flex items-center gap-2 px-4 py-2">
+        <svg width="20" height="20" fill="none" stroke="#1DB954" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <input type="text" placeholder="Enter your location..." class="flex-1 text-gray-700 outline-none text-base" id="locationInput">
+      </div>
+      <button onclick="setLocation()" class="bg-green-50 hover:bg-green-100 text-green-700 font-medium px-4 py-2 rounded-xl text-sm flex items-center gap-1 transition">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2a7 7 0 100 14A7 7 0 0012 2zm0 0v-2m0 16v2M2 12H0m4.22-7.78L2.8 2.8m16.98 1.42l-1.42 1.42M22 12h2m-4.22 7.78l1.42 1.42M4.22 19.78L2.8 21.2"/></svg>
+        Use GPS
+      </button>
+      <a href="services.html" class="btn-green px-6 py-2.5 text-base">Find Services</a>
+    </div>
+    <p class="text-sm text-gray-500 mt-4">📍 Available in Dubai, Abu Dhabi, Riyadh, Jeddah, Doha & more</p>
+  </div>
+</section>
+
+<!-- SERVICES GRID -->
+<section class="py-20 px-4 bg-white">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-12">
+      <h2 class="text-4xl font-bold text-gray-900 mb-3">Our Services</h2>
+      <p class="text-gray-500 text-lg">Everything your home needs, at your fingertips</p>
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+      <!-- Service Cards -->
+      <a href="service-detail.html" class="card bg-white border border-gray-100 p-5 flex flex-col items-center text-center cursor-pointer hover:border-green-200 hover:bg-green-50">
+        <div class="service-icon bg-green-100 mb-3">
+          <svg width="28" height="28" fill="none" stroke="#1DB954" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22" fill="none"/></svg>
+        </div>
+        <span class="font-semibold text-sm text-gray-800">Home Cleaning</span>
+        <span class="text-xs text-green-600 mt-1">From AED 89</span>
+      </a>
+      <a href="service-detail.html" class="card bg-white border border-gray-100 p-5 flex flex-col items-center text-center cursor-pointer hover:border-pink-200 hover:bg-pink-50">
+        <div class="service-icon bg-pink-100 mb-3">
+          <svg width="28" height="28" fill="none" stroke="#ec4899" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-1a6 6 0 0112 0v1"/></svg>
+        </div>
+        <span class="font-semibold text-sm text-gray-800">Women's Salon</span>
+        <span class="text-xs text-pink-500 mt-1">From AED 49</span>
+      </a>
+      <a href="service-detail.html" class="card bg-white border border-gray-100 p-5 flex flex-col items-center text-center cursor-pointer hover:border-purple-200 hover:bg-purple-50">
+        <div class="service-icon bg-purple-100 mb-3">
+          <svg width="28" height="28" fill="none" stroke="#9333ea" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg>
+        </div>
+        <span class="font-semibold text-sm text-gray-800">Women's Spa</span>
+        <span class="text-xs text-purple-500 mt-1">From AED 99</span>
+      </a>
+      <a href="service-detail.html" class="card bg-white border border-gray-100 p-5 flex flex-col items-center text-center cursor-pointer hover:border-blue-200 hover:bg-blue-50">
+        <div class="service-icon bg-blue-100 mb-3">
+          <svg width="28" height="28" fill="none" stroke="#3b82f6" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <span class="font-semibold text-sm text-gray-800">A/C Cleaning</span>
+        <span class="text-xs text-blue-500 mt-1">From AED 69</span>
+      </a>
+      <a href="service-detail.html" class="card bg-white border border-gray-100 p-5 flex flex-col items-center text-center cursor-pointer hover:border-amber-200 hover:bg-amber-50">
+        <div class="service-icon bg-amber-100 mb-3">
+          <svg width="28" height="28" fill="none" stroke="#f59e0b" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </div>
+        <span class="font-semibold text-sm text-gray-800">Furniture Cleaning</span>
+        <span class="text-xs text-amber-500 mt-1">From AED 79</span>
+      </a>
+      <a href="service-detail.html" class="card bg-white border border-gray-100 p-5 flex flex-col items-center text-center cursor-pointer hover:border-teal-200 hover:bg-teal-50">
+        <div class="service-icon bg-teal-100 mb-3">
+          <svg width="28" height="28" fill="none" stroke="#14b8a6" stroke-width="1.8" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <span class="font-semibold text-sm text-gray-800">Men's Grooming</span>
+        <span class="text-xs text-teal-500 mt-1">From AED 39</span>
+      </a>
+      <a href="service-detail.html" class="card bg-white border border-gray-100 p-5 flex flex-col items-center text-center cursor-pointer hover:border-red-200 hover:bg-red-50">
+        <div class="service-icon bg-red-100 mb-3">
+          <svg width="28" height="28" fill="none" stroke="#ef4444" stroke-width="1.8" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <span class="font-semibold text-sm text-gray-800">PCR at Home</span>
+        <span class="text-xs text-red-500 mt-1">From AED 149</span>
+      </a>
+      <a href="service-detail.html" class="card bg-white border border-gray-100 p-5 flex flex-col items-center text-center cursor-pointer hover:border-indigo-200 hover:bg-indigo-50">
+        <div class="service-icon bg-indigo-100 mb-3">
+          <svg width="28" height="28" fill="none" stroke="#6366f1" stroke-width="1.8" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21" fill="none"/><polyline points="7 3 7 8 15 8" fill="none"/></svg>
+        </div>
+        <span class="font-semibold text-sm text-gray-800">Lab at Home</span>
+        <span class="text-xs text-indigo-500 mt-1">From AED 199</span>
+      </a>
+      <a href="service-detail.html" class="card bg-white border border-gray-100 p-5 flex flex-col items-center text-center cursor-pointer hover:border-orange-200 hover:bg-orange-50">
+        <div class="service-icon bg-orange-100 mb-3">
+          <svg width="28" height="28" fill="none" stroke="#f97316" stroke-width="1.8" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <span class="font-semibold text-sm text-gray-800">Pest Control</span>
+        <span class="text-xs text-orange-500 mt-1">From AED 129</span>
+      </a>
+      <a href="service-detail.html" class="card bg-white border border-gray-100 p-5 flex flex-col items-center text-center cursor-pointer hover:border-cyan-200 hover:bg-cyan-50">
+        <div class="service-icon bg-cyan-100 mb-3">
+          <svg width="28" height="28" fill="none" stroke="#06b6d4" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+        <span class="font-semibold text-sm text-gray-800">Disinfection</span>
+        <span class="text-xs text-cyan-500 mt-1">From AED 99</span>
+      </a>
+      <a href="service-detail.html" class="card bg-white border border-gray-100 p-5 flex flex-col items-center text-center cursor-pointer hover:border-yellow-200 hover:bg-yellow-50">
+        <div class="service-icon bg-yellow-100 mb-3">
+          <svg width="28" height="28" fill="none" stroke="#eab308" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+        </div>
+        <span class="font-semibold text-sm text-gray-800">Handyman</span>
+        <span class="text-xs text-yellow-600 mt-1">From AED 59</span>
+      </a>
+      <a href="service-detail.html" class="card bg-white border border-gray-100 p-5 flex flex-col items-center text-center cursor-pointer hover:border-sky-200 hover:bg-sky-50">
+        <div class="service-icon bg-sky-100 mb-3">
+          <svg width="28" height="28" fill="none" stroke="#0ea5e9" stroke-width="1.8" viewBox="0 0 24 24"><path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11a2 2 0 012 2v3"/><rect x="9" y="11" width="14" height="10" rx="2"/><circle cx="13" cy="16" r="2"/></svg>
+        </div>
+        <span class="font-semibold text-sm text-gray-800">Car Wash</span>
+        <span class="text-xs text-sky-500 mt-1">From AED 49</span>
+      </a>
+    </div>
+    <div class="text-center mt-10">
+      <a href="services.html" class="btn-green px-8 py-3 inline-block text-base">View All Services</a>
+    </div>
+  </div>
+</section>
+
+<!-- WHY JUSTLIFE -->
+<section class="py-20 px-4 bg-gray-50" id="about">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-14">
+      <h2 class="text-4xl font-bold text-gray-900 mb-3">Why Justlife?</h2>
+      <p class="text-gray-500 text-lg max-w-xl mx-auto">Thousands of happy customers choose us for one reason — we deliver on our promise.</p>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="card bg-white p-8 text-center border border-gray-100">
+        <div class="w-14 h-14 bg-yellow-100 rounded-2xl flex items-center justify-center mx-auto mb-5">
+          <svg width="28" height="28" fill="#f59e0b" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <div class="text-3xl font-bold text-gray-900 mb-2">4.78/5</div>
+        <div class="font-semibold text-gray-800 mb-2">Top Rated Professionals</div>
+        <p class="text-sm text-gray-500">Every professional is background-checked, trained, and reviewed by real customers.</p>
+      </div>
+      <div class="card bg-white p-8 text-center border border-gray-100">
+        <div class="w-14 h-14 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-5">
+          <svg width="28" height="28" fill="none" stroke="#1DB954" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="text-3xl font-bold text-gray-900 mb-2">Same-Day</div>
+        <div class="font-semibold text-gray-800 mb-2">Availability</div>
+        <p class="text-sm text-gray-500">Book in minutes and get a professional at your doorstep the same day.</p>
+      </div>
+      <div class="card bg-white p-8 text-center border border-gray-100">
+        <div class="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-5">
+          <svg width="28" height="28" fill="none" stroke="#3b82f6" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        </div>
+        <div class="text-3xl font-bold text-gray-900 mb-2">Best Value</div>
+        <div class="font-semibold text-gray-800 mb-2">Value for Money</div>
+        <p class="text-sm text-gray-500">Transparent pricing, no hidden fees. What you see is what you pay.</p>
+      </div>
+      <div class="card bg-white p-8 text-center border border-gray-100">
+        <div class="w-14 h-14 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-5">
+          <svg width="28" height="28" fill="none" stroke="#9333ea" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18" stroke-width="3"/></svg>
+        </div>
+        <div class="text-3xl font-bold text-gray-900 mb-2">Super App</div>
+        <div class="font-semibold text-gray-800 mb-2">All in One Place</div>
+        <p class="text-sm text-gray-500">12+ services, real-time tracking, instant chat — all in one seamless app.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="py-20 px-4 bg-white" id="how-it-works">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-14">
+      <h2 class="text-4xl font-bold text-gray-900 mb-3">How It Works</h2>
+      <p class="text-gray-500 text-lg">Get your service in 3 easy steps</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-8 relative">
+      <div class="hidden md:block absolute top-10 left-1/3 right-1/3 h-0.5 bg-green-200 -z-0"></div>
+      <div class="text-center relative">
+        <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-5 text-white text-2xl font-bold shadow-lg">1</div>
+        <h3 class="text-xl font-semibold mb-2">Choose a Service</h3>
+        <p class="text-gray-500">Browse from 12+ home services and pick what you need.</p>
+      </div>
+      <div class="text-center relative">
+        <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-5 text-white text-2xl font-bold shadow-lg">2</div>
+        <h3 class="text-xl font-semibold mb-2">Book & Confirm</h3>
+        <p class="text-gray-500">Select your preferred time, address, and confirm your booking.</p>
+      </div>
+      <div class="text-center relative">
+        <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-5 text-white text-2xl font-bold shadow-lg">3</div>
+        <h3 class="text-xl font-semibold mb-2">Sit Back & Relax</h3>
+        <p class="text-gray-500">A verified professional arrives at your door. Rate them after.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS CAROUSEL -->
+<section class="py-20 px-4 bg-gray-50">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-12">
+      <h2 class="text-4xl font-bold text-gray-900 mb-3">What Our Customers Say</h2>
+      <div class="flex items-center justify-center gap-2">
+        <div class="flex gap-1 star text-2xl">★★★★★</div>
+        <span class="font-semibold text-gray-700">4.78</span>
+        <span class="text-gray-500">from 80,000+ reviews</span>
+      </div>
+    </div>
+    <div class="relative overflow-hidden">
+      <div id="carousel" class="flex gap-6 transition-transform duration-500 ease-in-out" style="touch-action:pan-y;">
+        <div class="review-card card bg-white p-7 border border-gray-100 flex-shrink-0 w-80">
+          <div class="flex gap-1 star mb-3">★★★★★</div>
+          <p class="text-gray-700 mb-5 leading-relaxed">"The cleaning team was absolutely fantastic. My apartment looks brand new! Professional, punctual, and thorough. Will definitely book again."</p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-gradient-to-br from-green-400 to-teal-500 rounded-full flex items-center justify-center text-white font-bold">S</div>
+            <div><div class="font-semibold text-sm">Sarah M.</div><div class="text-xs text-gray-400">Dubai Marina</div></div>
+          </div>
+        </div>
+        <div class="review-card card bg-white p-7 border border-gray-100 flex-shrink-0 w-80">
+          <div class="flex gap-1 star mb-3">★★★★★</div>
+          <p class="text-gray-700 mb-5 leading-relaxed">"Booked the women's salon at home and it was such a luxurious experience. The stylist was skilled and professional. Highly recommend!"</p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">F</div>
+            <div><div class="font-semibold text-sm">Fatima Al-R.</div><div class="text-xs text-gray-400">Abu Dhabi</div></div>
+          </div>
+        </div>
+        <div class="review-card card bg-white p-7 border border-gray-100 flex-shrink-0 w-80">
+          <div class="flex gap-1 star mb-3">★★★★☆</div>
+          <p class="text-gray-700 mb-5 leading-relaxed">"Great service overall! The handyman fixed my AC issue in no time. Pricing is fair and transparent. Will use Justlife again for sure."</p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-cyan-500 rounded-full flex items-center justify-center text-white font-bold">A</div>
+            <div><div class="font-semibold text-sm">Ahmed K.</div><div class="text-xs text-gray-400">Riyadh</div></div>
+          </div>
+        </div>
+        <div class="review-card card bg-white p-7 border border-gray-100 flex-shrink-0 w-80">
+          <div class="flex gap-1 star mb-3">★★★★★</div>
+          <p class="text-gray-700 mb-5 leading-relaxed">"Used Justlife for pest control and was amazed at how efficient and thorough the team was. Zero pests since. Excellent value!"</p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-gradient-to-br from-orange-400 to-yellow-500 rounded-full flex items-center justify-center text-white font-bold">M</div>
+            <div><div class="font-semibold text-sm">Mohammed J.</div><div class="text-xs text-gray-400">Doha</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-center gap-3 mt-8">
+      <button onclick="prevSlide()" class="w-10 h-10 rounded-full border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-white transition flex items-center justify-center">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button onclick="nextSlide()" class="w-10 h-10 rounded-full bg-green-500 text-white hover:bg-green-600 transition flex items-center justify-center">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- DOWNLOAD APP -->
+<section class="py-20 px-4 bg-gradient-to-br from-green-600 to-teal-600">
+  <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10">
+    <div class="flex-1 text-white">
+      <h2 class="text-4xl font-bold mb-4">Download the Justlife App</h2>
+      <p class="text-green-100 text-lg mb-8">Get the full experience on iOS and Android. Book, track, and manage all your home services in one place.</p>
+      <div class="flex flex-wrap gap-4">
+        <a href="#" class="flex items-center gap-3 bg-black text-white px-5 py-3 rounded-xl hover:bg-gray-900 transition">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          <div><div class="text-xs text-gray-400">Download on the</div><div class="font-semibold text-sm">App Store</div></div>
+        </a>
+        <a href="#" class="flex items-center gap-3 bg-black text-white px-5 py-3 rounded-xl hover:bg-gray-900 transition">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M3.18 23.76A1.96 1.96 0 012 22V2c0-.74.43-1.39 1.06-1.72L13.6 12 3.18 23.76zm17.62-10.71L17.89 11.5 3.5.36l.36-.2a1.97 1.97 0 012.02.08l13.92 7.95-2.63 1.44 2.63 3.42zm-17.62 11l10.42-11.76 2.63 3.42-13.05 8.54zM20.8 13.05L6.88 21l2.63-2.97.42.24 11.5-6.56a1.97 1.97 0 01.03 1.34z"/></svg>
+          <div><div class="text-xs text-gray-400">Get it on</div><div class="font-semibold text-sm">Google Play</div></div>
+        </a>
+      </div>
+    </div>
+    <div class="flex-shrink-0">
+      <div class="w-64 h-80 bg-white/20 rounded-3xl flex items-center justify-center border-2 border-white/30 backdrop-blur">
+        <div class="text-center text-white">
+          <svg width="48" height="48" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24" class="mx-auto mb-3"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18" stroke-width="3"/></svg>
+          <div class="text-sm opacity-75">App Preview</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-gray-900 text-gray-400 py-16 px-4">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+      <div>
+        <div class="flex items-center gap-2 mb-4">
+          <div class="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
+            <svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+          </div>
+          <span class="font-bold text-xl text-white" style="font-family:'Sora',sans-serif;">Justlife</span>
+        </div>
+        <p class="text-sm leading-relaxed mb-4">The #1 home services super app in the Gulf region.</p>
+        <div class="flex gap-3">
+          <a href="#" class="w-9 h-9 bg-gray-700 rounded-lg flex items-center justify-center hover:bg-green-500 transition">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <a href="#" class="w-9 h-9 bg-gray-700 rounded-lg flex items-center justify-center hover:bg-green-500 transition">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div>
+        <h4 class="font-semibold text-white mb-4">Services</h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href="service-detail.html" class="hover:text-green-400 transition">Home Cleaning</a></li>
+          <li><a href="service-detail.html" class="hover:text-green-400 transition">Women's Salon</a></li>
+          <li><a href="service-detail.html" class="hover:text-green-400 transition">A/C Cleaning</a></li>
+          <li><a href="service-detail.html" class="hover:text-green-400 transition">Handyman</a></li>
+          <li><a href="service-detail.html" class="hover:text-green-400 transition">Pest Control</a></li>
+          <li><a href="service-detail.html" class="hover:text-green-400 transition">Car Wash</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-semibold text-white mb-4">Cities</h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href="#" class="hover:text-green-400 transition">Dubai</a></li>
+          <li><a href="#" class="hover:text-green-400 transition">Abu Dhabi</a></li>
+          <li><a href="#" class="hover:text-green-400 transition">Riyadh</a></li>
+          <li><a href="#" class="hover:text-green-400 transition">Jeddah</a></li>
+          <li><a href="#" class="hover:text-green-400 transition">Doha</a></li>
+          <li><a href="#" class="hover:text-green-400 transition">Sharjah</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-semibold text-white mb-4">Company</h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href="#" class="hover:text-green-400 transition">About Us</a></li>
+          <li><a href="#" class="hover:text-green-400 transition">Careers</a></li>
+          <li><a href="#" class="hover:text-green-400 transition">Blog</a></li>
+          <li><a href="#" class="hover:text-green-400 transition">Press</a></li>
+          <li><a href="login.html" class="hover:text-green-400 transition">Login</a></li>
+          <li><a href="register.html" class="hover:text-green-400 transition">Sign Up</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-gray-800 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm">
+      <p>© 2024 Justlife Technologies. All rights reserved.</p>
+      <div class="flex gap-6">
+        <a href="#" class="hover:text-green-400 transition">Terms of Service</a>
+        <a href="#" class="hover:text-green-400 transition">Privacy Policy</a>
+        <a href="#" class="hover:text-green-400 transition">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+function openMenu() {
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+}
+function closeMenu() {
+  document.getElementById('drawer').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+function toggleRTL() {
+  const html = document.documentElement;
+  const isRTL = html.getAttribute('dir') === 'rtl';
+  html.setAttribute('dir', isRTL ? 'ltr' : 'rtl');
+  document.body.classList.toggle('rtl', !isRTL);
+}
+function setLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      () => { document.getElementById('locationInput').value = 'Dubai Marina, Dubai'; },
+      () => { document.getElementById('locationInput').value = 'Location access denied'; }
+    );
+  }
+}
+let slideIdx = 0;
+const carousel = document.getElementById('carousel');
+function nextSlide() {
+  const cards = carousel.children;
+  const cardW = cards[0].offsetWidth + 24;
+  slideIdx = Math.min(slideIdx + 1, cards.length - 1);
+  carousel.style.transform = `translateX(-${slideIdx * cardW}px)`;
+}
+function prevSlide() {
+  const cardW = carousel.children[0].offsetWidth + 24;
+  slideIdx = Math.max(slideIdx - 1, 0);
+  carousel.style.transform = `translateX(-${slideIdx * cardW}px)`;
+}
+setInterval(nextSlide, 5000);
+</script>
+</body>
+</html>
